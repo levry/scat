@@ -4,14 +4,13 @@
 import groovyx.net.http.HttpBuilder
 import groovyx.net.http.ContentTypes
 
-
 def http = HttpBuilder.configure {
-    request.uri = 'http://localhost:8080/batch/address'
+    request.uri = 'http://localhost:8080/batch/school'
     request.contentType = ContentTypes.JSON[0]
     request.charset = 'UTF-8'
 }
 
-readBatch('address.csv', 40) { chunk ->
+readBatch('school.csv', 40) { chunk ->
     println http.post {
         request.body = chunk
     }
@@ -22,13 +21,17 @@ static void readBatch(String filename, int chunkSize, Closure callable) {
 
     def toMap = { fields ->
         [
-            city: fields[0],
-            region: fields[1],
-            country: fields[2]
+            number: fields[0],
+            name: fields[1],
+            type: fields[2],
+            city: fields[3],
+            region: fields[4],
+            country: fields[5]
         ]
     }
 
     new File(filename).eachLine { String line, Integer count ->
+
         if(count == 1) {
             def names = line.split('\t')
 
