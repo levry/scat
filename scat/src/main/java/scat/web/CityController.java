@@ -8,8 +8,6 @@ import scat.web.model.CityModel;
 
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-
 /**
  * @author levry
  */
@@ -23,17 +21,17 @@ public class CityController {
         this.repository = repository;
     }
 
-    @RequestMapping
+    @GetMapping
     public Iterable<City> index() {
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = GET)
+    @GetMapping("/{id}")
     public City get(@PathVariable Long id) {
         return repository.findOne(id);
     }
 
-    @RequestMapping(method = POST)
+    @PostMapping
     public City save(@Valid @RequestBody CityModel model) {
         City city = new City();
         city.setName(model.getName());
@@ -42,7 +40,7 @@ public class CityController {
         return repository.save(city);
     }
 
-    @RequestMapping(value = "/{id}", method = PUT)
+    @PutMapping("/{id}")
     public City update(@PathVariable Long id, @Valid @RequestBody City model) {
         City city = repository.getOne(id);
         city.setName(model.getName());
@@ -51,7 +49,7 @@ public class CityController {
         return repository.save(city);
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE)
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         repository.delete(id);

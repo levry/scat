@@ -25,29 +25,29 @@ public class SchoolTypeController {
         this.repository = repository;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Iterable<SchoolType> index() {
         return repository.findAll();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public SchoolType get(@PathVariable Integer id) {
         return repository.findOne(id);
     }
 
-    @RequestMapping(method = POST)
+    @PostMapping
     public SchoolType save(@Valid @RequestBody SchoolType model) {
         return repository.save(model);
     }
 
-    @RequestMapping(value = "/{id}", method = PUT)
+    @PutMapping("/{id}")
     public SchoolType update(@PathVariable Integer id, @Valid @RequestBody SchoolType model) {
         SchoolType schoolType = repository.getOne(id);
         schoolType.setName(model.getName());
         return repository.save(schoolType);
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE)
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         repository.delete(id);

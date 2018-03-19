@@ -23,17 +23,17 @@ public class RegionController {
         this.repository = repository;
     }
 
-    @RequestMapping
+    @GetMapping
     public Iterable<Region> index() {
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = GET)
+    @GetMapping("/{id}")
     public Region get(@PathVariable Integer id) {
         return repository.findOne(id);
     }
 
-    @RequestMapping(method = POST)
+    @PostMapping
     public Region save(@Valid @RequestBody RegionModel model) {
         Region region = new Region();
         region.setName(model.getName());
@@ -41,7 +41,7 @@ public class RegionController {
         return repository.save(region);
     }
 
-    @RequestMapping(value = "/{id}", method = PUT)
+    @PutMapping("/{id}")
     public Region update(@PathVariable Integer id, @Valid @RequestBody Region model) {
         Region region = repository.getOne(id);
         region.setName(model.getName());
@@ -49,7 +49,7 @@ public class RegionController {
         return repository.save(region);
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE)
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         repository.delete(id);
