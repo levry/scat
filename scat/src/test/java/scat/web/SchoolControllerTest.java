@@ -18,6 +18,7 @@ import scat.data.SchoolType;
 import scat.repo.SchoolRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import static java.lang.String.format;
 import static org.mockito.Matchers.any;
@@ -56,7 +57,7 @@ public class SchoolControllerTest {
 
     @Test
     @Transactional
-    public void getSchool() throws Exception {
+    public void get_school() throws Exception {
         SchoolType schoolType = entities.schoolType("University");
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
 
@@ -66,7 +67,7 @@ public class SchoolControllerTest {
         school.setNumber(20);
         school.setType(schoolType);
         school.setCity(city);
-        when(repository.getOne(eq(2L))).thenReturn(school);
+        when(repository.findOne(eq(2L))).thenReturn(school);
 
         mvc.perform(get("/schools/{id}", school.getId())).andDo(print())
                 .andExpect(status().isOk())
@@ -80,13 +81,21 @@ public class SchoolControllerTest {
     }
 
     @Test
+    public void should_be_404_if_not_found_school() throws Exception {
+        when(repository.findOne(eq(81L))).thenThrow(EntityNotFoundException.class);
+
+        mvc.perform(get("/schools/{id}", 81)).andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @Transactional
-    public void postSchool() throws Exception {
+    public void post_school() throws Exception {
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
         SchoolType schoolType = entities.schoolType("University");
 
         when(repository.save(any(School.class))).then(invocation -> {
-            School school = invocation.getArgumentAt(0, School.class);
+            School school = invocation.getArgument(0);
             school.setId(2L);
             return school;
         });
@@ -115,7 +124,7 @@ public class SchoolControllerTest {
 
     @Test
     @Transactional
-    public void updateSchool() throws Exception {
+    public void update_school() throws Exception {
         SchoolType colledge = entities.schoolType("Colledge");
         City moscow = entities.city("Moscow", null, "Russia");
 
@@ -154,11 +163,11 @@ public class SchoolControllerTest {
     }
 
     @Test
-    public void deleteSchool() throws Exception {
+    public void delete_school() throws Exception {
         mvc.perform(delete("/schools/{id}", 15L)).andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(repository).delete(eq(15L));
+        verify(repository).deleteById(eq(15L));
     }
 
 }

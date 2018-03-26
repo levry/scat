@@ -8,10 +8,6 @@ import scat.web.model.SchoolModel;
 
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
 /**
  * @author levry
  */
@@ -32,7 +28,7 @@ public class SchoolController {
 
     @GetMapping("/{id}")
     public School get(@PathVariable Long id) {
-        return repository.getOne(id);
+        return repository.findOne(id);
     }
 
     @PostMapping
@@ -58,6 +54,6 @@ public class SchoolController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }

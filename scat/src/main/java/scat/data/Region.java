@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Region {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

@@ -12,9 +12,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import scat.data.Country;
 import scat.repo.CountryRepository;
 
-import static java.lang.String.format;
+import javax.persistence.EntityNotFoundException;
+
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +39,7 @@ public class CountryControllerTest {
     private CountryRepository countryRepository;
 
     @Test
-    public void getCountryById() throws Exception {
+    public void get_country_by_id() throws Exception {
 
         Country country = country(66, "Russia");
         when(countryRepository.findOne(66)).thenReturn(country);
@@ -51,7 +51,15 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void postCountry() throws Exception {
+    public void should_be_404_if_not_found_by_id() throws Exception {
+        when(countryRepository.findOne(4)).thenThrow(EntityNotFoundException.class);
+
+        mvc.perform(get("/countries/4")).andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void post_country() throws Exception {
         Country country = country(1, "Russia");
         when(countryRepository.save(any(Country.class))).thenReturn(country);
 
@@ -68,7 +76,7 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void updateCountry() throws Exception {
+    public void update_country() throws Exception {
         Country country = country(5, "France");
         when(countryRepository.getOne(eq(5))).thenReturn(country);
         when(countryRepository.save(any(Country.class))).thenReturn(country);
@@ -86,11 +94,11 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void deleteCountry() throws Exception {
+    public void delete_country() throws Exception {
         mvc.perform(delete("/countries/{id}", 66)).andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(countryRepository).delete(eq(66));
+        verify(countryRepository).deleteById(eq(66));
     }
 
     private Country country(int id, String name) {

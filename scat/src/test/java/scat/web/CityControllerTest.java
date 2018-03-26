@@ -20,6 +20,7 @@ import scat.data.Region;
 import scat.repo.CityRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import static java.lang.String.format;
 import static org.mockito.Matchers.any;
@@ -59,7 +60,7 @@ public class CityControllerTest {
 
     @Test
     @Transactional
-    public void getCity() throws Exception {
+    public void get_city() throws Exception {
 
         Country country = entities.country("Russia");
         Region region = entities.region("Ural", country);
@@ -77,19 +78,28 @@ public class CityControllerTest {
     }
 
     @Test
+    public void should_be_404_if_not_found_city() throws Exception {
+        when(cityRepository.findOne(eq(3L))).thenThrow(EntityNotFoundException.class);
+
+        mvc.perform(get("/cities/{id}", 3)).andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @Transactional
-    public void postCity() throws Exception {
+    public void post_city() throws Exception {
         Country country = entities.country("Russia");
         Region region = entities.region("Ural", country);
 
         when(cityRepository.save(any(City.class))).then(invocation -> {
-            City city = invocation.getArgumentAt(0, City.class);
+            City city = invocation.getArgument(0);
             city.setId(2L);
             return city;
         });
 
 
-        String json = format("{ \"name\": \"Test\", \"country\": %1$d, \"region\": %2$d}", country.getId(), region.getId());
+        String json = format("{ \"name\": \"Test\", \"country\": %1$d, \"region\": %2$d}",
+                country.getId(), region.getId());
         RequestBuilder dataPost = post("/cities")
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json);
@@ -106,11 +116,11 @@ public class CityControllerTest {
 
     @Test
     @Transactional
-    public void saveCityWithoutRegion() throws Exception {
+    public void save_city_without_region() throws Exception {
         Country country = entities.country("Russia");
 
         when(cityRepository.save(any(City.class))).then(invocation -> {
-            City city = invocation.getArgumentAt(0, City.class);
+            City city = invocation.getArgument(0);
             city.setId(2L);
             return city;
         });
@@ -133,14 +143,14 @@ public class CityControllerTest {
 
     @Test
     @Transactional
-    public void updateNameOfCity() throws Exception {
+    public void update_name_of_city() throws Exception {
         Country country = entities.country("Russia");
         Region region = entities.region("Ural", country);
 
         City city = entities.city("Test", region, country);
 
         when(cityRepository.getOne(eq(city.getId()))).thenReturn(city);
-        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgumentAt(0, City.class));
+        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgument(0));
 
         String json = String.format("{ \"name\": \"Test update\", \"country\": %1$d, \"region\": %2$d }",
                 country.getId(), region.getId());
@@ -161,7 +171,7 @@ public class CityControllerTest {
 
     @Test
     @Transactional
-    public void updateRegionOfCity() throws Exception {
+    public void update_region_of_city() throws Exception {
         Country country = entities.country("Russia");
         Region ural = entities.region("Ural", country);
         Region syberia = entities.region("Syberia", country);
@@ -169,7 +179,7 @@ public class CityControllerTest {
         City city = entities.city("Test", ural, country);
 
         when(cityRepository.getOne(eq(city.getId()))).thenReturn(city);
-        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgumentAt(0, City.class));
+        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgument(0));
 
         String json = String.format("{ \"name\": \"Test\", \"country\": %1$d, \"region\": %2$d }",
                 country.getId(), syberia.getId());
@@ -190,7 +200,7 @@ public class CityControllerTest {
 
     @Test
     @Transactional
-    public void updateCountryOfCity() throws Exception {
+    public void update_country_of_city() throws Exception {
         Country russia = entities.country("Russia");
         Country france = entities.country("France");
         Region region = entities.region("Ural", russia);
@@ -198,7 +208,7 @@ public class CityControllerTest {
         City city = entities.city("Test", region, russia);
 
         when(cityRepository.getOne(eq(city.getId()))).thenReturn(city);
-        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgumentAt(0, City.class));
+        when(cityRepository.save(any(City.class))).then(invocation -> invocation.getArgument(0));
 
         String json = String.format("{ \"name\": \"Test\", \"country\": %1$d, \"region\": %2$d }",
                 france.getId(), region.getId());
@@ -218,11 +228,10 @@ public class CityControllerTest {
     }
 
     @Test
-    public void deleteCity() throws Exception {
+    public void delete_city() throws Exception {
         mvc.perform(delete("/cities/{id}", 15)).andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(cityRepository).delete(eq(15L));
-
+        verify(cityRepository).deleteById(eq(15L));
     }
 }

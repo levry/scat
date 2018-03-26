@@ -8,8 +8,6 @@ import scat.web.model.RegionModel;
 
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-
 /**
  * @author levry
  */
@@ -52,7 +50,7 @@ public class RegionController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
 }

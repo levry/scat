@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class EntityJsonDeserializerTest {
 
     @Test
-    public void deserializeDomainInField() throws Exception {
+    public void deserialize_domain_in_field() throws Exception {
 
         Country country = country(23, "Russia");
 
@@ -42,7 +42,7 @@ public class EntityJsonDeserializerTest {
     }
 
     @Test
-    public void deserializeDomain() throws Exception {
+    public void deserialize_domain() throws Exception {
         EntityManager entityManager = mockEntityManager();
         ObjectMapper mapper = objectMapper(entityManager);
 
@@ -54,7 +54,7 @@ public class EntityJsonDeserializerTest {
     }
 
     @Test
-    public void deserializeCollectionDomains() throws Exception {
+    public void deserialize_collection_domains() throws Exception {
         Country russia = country(23, "Russia");
         Country germany = country(3, "Germany");
 
@@ -70,7 +70,7 @@ public class EntityJsonDeserializerTest {
     }
 
     @Test
-    public void deserializeArrayDomains() throws Exception {
+    public void deserialize_array_domains() throws Exception {
         Country russia = country(23, "Russia");
         Country germany = country(3, "Germany");
 

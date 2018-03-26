@@ -11,6 +11,7 @@ import scat.repo.SchoolTypeRepository;
 import javax.persistence.criteria.Predicate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,15 +66,15 @@ public class SchoolWriter {
 
         return data -> {
             City city = cities.computeIfAbsent(data.keyCity(), key -> {
-                City exists = findCityByData(data);
-                return null == exists ? notFound : exists;
+                Optional<City> exists = findCityByData(data);
+                return exists.orElse(notFound);
             });
 
             return notFound == city ? null : city;
         };
     }
 
-    private City findCityByData(SchoolData data) {
+    private Optional<City> findCityByData(SchoolData data) {
         return cities.findOne((root, query, cb) -> {
             String city = data.getCity();
             Predicate byName = cb.equal(

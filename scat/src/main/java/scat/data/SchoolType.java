@@ -12,7 +12,7 @@ import java.util.Objects;
 public class SchoolType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

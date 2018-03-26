@@ -7,10 +7,6 @@ import scat.repo.SchoolTypeRepository;
 
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
 /**
  * @author levry
  */
@@ -50,7 +46,7 @@ public class SchoolTypeController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
 }
