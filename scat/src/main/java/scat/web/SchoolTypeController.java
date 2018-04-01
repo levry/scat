@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.SchoolType;
 import scat.repo.SchoolTypeRepository;
+import scat.web.search.SchoolTypeSearch;
 
 import javax.validation.Valid;
 
@@ -22,8 +23,8 @@ public class SchoolTypeController {
     }
 
     @GetMapping
-    public Iterable<SchoolType> index() {
-        return repository.findAll();
+    public Iterable<SchoolType> index(@ModelAttribute SchoolType params) {
+        return new SchoolTypeSearch(repository).findBy(params);
     }
 
     @GetMapping("/{id}")

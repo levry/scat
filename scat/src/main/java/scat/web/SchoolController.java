@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import scat.data.School;
 import scat.repo.SchoolRepository;
 import scat.web.model.SchoolModel;
+import scat.web.search.SchoolSearch;
 
 import javax.validation.Valid;
+
+import static scat.web.search.SchoolSearch.*;
 
 /**
  * @author levry
@@ -22,8 +25,8 @@ public class SchoolController {
     }
 
     @GetMapping
-    public Iterable<School> index() {
-        return repository.findAll();
+    public Iterable<School> index(@ModelAttribute SchoolCriteria params) {
+        return new SchoolSearch(repository).findBy(params);
     }
 
     @GetMapping("/{id}")

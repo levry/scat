@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.Country;
 import scat.repo.CountryRepository;
+import scat.web.search.CountrySearch;
 
 import javax.validation.Valid;
 
@@ -21,8 +22,8 @@ public class CountryController {
     }
 
     @GetMapping
-    public Iterable<Country> index() {
-        return repository.findAll();
+    public Iterable<Country> index(@ModelAttribute Country params) {
+        return new CountrySearch(repository).findBy(params);
     }
 
     @GetMapping("/{id}")

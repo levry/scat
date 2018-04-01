@@ -1,8 +1,8 @@
 package scat.web.model;
 
-import org.hibernate.validator.constraints.NotBlank;
 import scat.data.Country;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**

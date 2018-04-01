@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import scat.data.Region;
 import scat.repo.RegionRepository;
 import scat.web.model.RegionModel;
+import scat.web.search.RegionSearch;
 
 import javax.validation.Valid;
+
+import static scat.web.search.RegionSearch.*;
 
 /**
  * @author levry
@@ -22,8 +25,8 @@ public class RegionController {
     }
 
     @GetMapping
-    public Iterable<Region> index() {
-        return repository.findAll();
+    public Iterable<Region> index(@ModelAttribute RegionCriteria criteria) {
+        return new RegionSearch(repository).findBy(criteria);
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,6 @@
 package scat;
 
-import scat.data.City;
-import scat.data.Country;
-import scat.data.Region;
-import scat.data.SchoolType;
+import scat.data.*;
 
 import javax.persistence.EntityManager; /**
  * @author levry
@@ -63,4 +60,20 @@ public class Entities {
         return persist(schoolType);
     }
 
+    public School school(String name, String type, City city) {
+        School school = new School();
+        school.setName(name);
+        school.setType(schoolType(type));
+        school.setCity(city);
+        return persist(school);
+    }
+
+    public School school(String name, int number, String type, City city) {
+        School school = new School();
+        school.setName(name);
+        school.setNumber(number);
+        school.setType(schoolType(type));
+        school.setCity(city);
+        return persist(school);
+    }
 }

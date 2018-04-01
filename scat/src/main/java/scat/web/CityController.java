@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import scat.data.City;
 import scat.repo.CityRepository;
 import scat.web.model.CityModel;
+import scat.web.search.CitySearch;
 
 import javax.validation.Valid;
+
+import static scat.web.search.CitySearch.*;
 
 /**
  * @author levry
@@ -22,8 +25,8 @@ public class CityController {
     }
 
     @GetMapping
-    public Iterable<City> index() {
-        return repository.findAll();
+    public Iterable<City> index(@ModelAttribute CityCriteria params) {
+        return new CitySearch(repository).findBy(params);
     }
 
     @GetMapping("/{id}")
