@@ -1,14 +1,16 @@
 package scat.web.search;
 
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Component;
 import scat.data.School;
 import scat.repo.SchoolRepository;
+import scat.repo.support.SpecificationBuilder;
 
 import java.util.List;
 
 /**
  * @author levry
  */
+@Component
 public class SchoolSearch {
 
     private final SchoolRepository repository;
@@ -19,32 +21,42 @@ public class SchoolSearch {
 
     public List<School> findBy(SchoolCriteria criteria) {
 
-        SearchFilters<School> search = new SearchFilters<>();
-        search.notNulls(school -> {
+        SpecificationBuilder<School> builder = new SpecificationBuilder<>();
+
+        builder.notNulls(school -> {
             school.eq("id", criteria.id);
             school.ilike("name", criteria.name);
             school.eq("number", criteria.number);
         });
+        builder.fetch("type", typeSpec ->
+            typeSpec.notNulls(type -> {
+                type.eq("id", criteria.type);
+                type.ilike("name", criteria.type_name);
+        }));
 
-        if(criteria.hasTypeBy()) {
-            search.joinByIdAndName("type", criteria.type, criteria.type_name);
-        }
-
-        if(criteria.hasCityBy()) {
-            search.joinBy("city", city -> {
-                city.byIdAndName(criteria.city, criteria.city_name);
-
-                if(criteria.hasCountryBy()) {
-                    city.joinByIdAndName("country", criteria.country, criteria.country_name);
-                }
-
-                if(criteria.hasRegionBy()) {
-                    city.joinByIdAndName("region", criteria.region, criteria.region_name);
-                }
+        builder.fetch("city", citySpec -> {
+            citySpec.notNulls(city -> {
+                city.eq("id", criteria.city);
+                city.ilike("name", criteria.city_name);
             });
-        }
 
-        return repository.findAll(search.specification());
+            citySpec.fetch("country", countrySpec ->
+                countrySpec.notNulls(country -> {
+                    country.eq("id", criteria.country);
+                    country.ilike("name", criteria.country_name);
+                })
+            );
+
+            citySpec.leftFetch("region", regionSpec ->
+                regionSpec.notNulls(region -> {
+                    region.eq("id", criteria.region);
+                    region.ilike("name", criteria.region_name);
+                })
+            );
+
+        });
+
+        return repository.findAll(builder);
     }
 
     public static class SchoolCriteria {
@@ -149,24 +161,5 @@ public class SchoolSearch {
             this.region_name = region_name;
         }
 
-        private boolean hasTypeBy() {
-            return hasFilterBy(type, type_name);
-        }
-
-        private boolean hasFilterBy(Number id, String name) {
-            return null != id || StringUtils.hasText(name);
-        }
-
-        private boolean hasCityBy() {
-            return hasFilterBy(city, city_name) || hasCountryBy() || hasRegionBy();
-        }
-
-        private boolean hasCountryBy() {
-            return hasFilterBy(country, country_name);
-        }
-
-        private boolean hasRegionBy() {
-            return hasFilterBy(region, region_name);
-        }
     }
 }

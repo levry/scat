@@ -3,8 +3,11 @@ package scat.web.search;
 import org.springframework.util.StringUtils;
 import scat.data.City;
 import scat.repo.CityRepository;
+import scat.repo.support.SpecificationBuilder;
 
 import java.util.List;
+
+import static javax.persistence.criteria.JoinType.LEFT;
 
 /**
  * @author levry
@@ -19,16 +22,25 @@ public class CitySearch {
 
     public List<City> findBy(CityCriteria criteria) {
 
-        SearchFilters<City> filters = new SearchFilters<>();
-        filters.byIdAndName(criteria.id, criteria.name);
-        if (criteria.hasCountryBy()) {
-            filters.joinByIdAndName("country", criteria.country, criteria.country_name);
-        }
-        if (criteria.hasRegionBy()) {
-            filters.joinByIdAndName("region", criteria.region, criteria.region_name);
-        }
+        SpecificationBuilder<City> spec = new SpecificationBuilder<>();
+        spec.notNulls(city -> {
+            city.eq("id", criteria.id);
+            city.ilike("name", criteria.name);
+        });
+        spec.fetch("country", countrySpec ->
+            countrySpec.notNulls(country -> {
+                country.eq("id", criteria.country);
+                country.ilike("name", criteria.country_name);
+            })
+        );
+        spec.fetch("region", LEFT, regionSpec -> {
+            regionSpec.notNulls(region -> {
+                region.eq("id", criteria.region);
+                region.ilike("name", criteria.region_name);
+            });
+        });
 
-        return repository.findAll(filters.specification());
+        return repository.findAll(spec);
     }
 
     public static class CityCriteria {
@@ -92,8 +104,5 @@ public class CitySearch {
             return null != country || StringUtils.hasText(country_name);
         }
 
-        private boolean hasRegionBy() {
-            return null != region || StringUtils.hasText(region_name);
-        }
     }
 }

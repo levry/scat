@@ -51,10 +51,10 @@ public class CitySearchTest {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.city("Moscow", "Russia");
 
-        CityCriteria params = new CityCriteria();
-        params.setName("E");
+        CityCriteria criteria = new CityCriteria();
+        criteria.setName("E");
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(1));
         assertThat(cities, hasItems(city));
@@ -67,10 +67,10 @@ public class CitySearchTest {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.city("Moscow", "Russia");
 
-        CityCriteria params = new CityCriteria();
-        params.setId(city.getId());
+        CityCriteria criteria = new CityCriteria();
+        criteria.setId(city.getId());
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(1));
         assertThat(cities, hasItems(city));
@@ -84,10 +84,10 @@ public class CitySearchTest {
         City moscow = entities.city("Moscow", "Russia");
         entities.city("London", "United Kindom");
 
-        CityCriteria params = new CityCriteria();
-        params.setCountry_name("Ru");
+        CityCriteria criteria = new CityCriteria();
+        criteria.setCountry_name("Ru");
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(2));
         assertThat(cities, hasItems(ekat, moscow));
@@ -100,10 +100,10 @@ public class CitySearchTest {
         entities.city("Moscow", "Russia");
         City berlin = entities.city("Berlin", "Germany");
 
-        CityCriteria params = new CityCriteria();
-        params.setCountry(berlin.getCountry().getId());
+        CityCriteria criteria = new CityCriteria();
+        criteria.setCountry(berlin.getCountry().getId());
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(1));
         assertThat(cities, hasItems(berlin));
@@ -115,10 +115,10 @@ public class CitySearchTest {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         entities.city("Moscow", "Russia");
 
-        CityCriteria params = new CityCriteria();
-        params.setRegion_name("Ur");
+        CityCriteria criteria = new CityCriteria();
+        criteria.setRegion_name("Ur");
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(1));
         assertThat(cities, hasItems(ekat));
@@ -130,10 +130,10 @@ public class CitySearchTest {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         entities.city("Moscow", "Russia");
 
-        CityCriteria params = new CityCriteria();
-        params.setRegion(ekat.getRegion().getId());
+        CityCriteria criteria = new CityCriteria();
+        criteria.setRegion(ekat.getRegion().getId());
 
-        List<City> cities = search.findBy(params);
+        List<City> cities = search.findBy(criteria);
 
         assertThat(cities.size(), is(1));
         assertThat(cities, hasItems(ekat));

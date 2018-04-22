@@ -9,7 +9,7 @@ import scat.web.search.SchoolSearch;
 
 import javax.validation.Valid;
 
-import static scat.web.search.SchoolSearch.*;
+import static scat.web.search.SchoolSearch.SchoolCriteria;
 
 /**
  * @author levry
@@ -19,14 +19,16 @@ import static scat.web.search.SchoolSearch.*;
 public class SchoolController {
 
     private final SchoolRepository repository;
+    private final SchoolSearch schoolSearch;
 
-    public SchoolController(SchoolRepository repository) {
+    public SchoolController(SchoolRepository repository, SchoolSearch schoolSearch) {
         this.repository = repository;
+        this.schoolSearch = schoolSearch;
     }
 
     @GetMapping
     public Iterable<School> index(@ModelAttribute SchoolCriteria params) {
-        return new SchoolSearch(repository).findBy(params);
+        return schoolSearch.findBy(params);
     }
 
     @GetMapping("/{id}")

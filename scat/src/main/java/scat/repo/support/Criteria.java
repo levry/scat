@@ -1,5 +1,7 @@
 package scat.repo.support;
 
+import java.util.function.Consumer;
+
 /**
  * @author levry
  */
@@ -11,5 +13,9 @@ public interface Criteria {
 
     default Criteria notNulls() {
         return new NotNullCriteria(this);
+    }
+
+    default void notNulls(Consumer<Criteria> criteriaConsumer) {
+        criteriaConsumer.accept(notNulls());
     }
 }

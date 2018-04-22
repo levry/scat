@@ -53,9 +53,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", city);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setName("U");
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setName("U");
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -70,9 +70,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", city);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setId(urfu.getId());
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setId(urfu.getId());
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -87,9 +87,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", city);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setType_name("Uni");
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setType_name("Uni");
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -104,9 +104,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", city);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setType(urfu.getType().getId());
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setType(urfu.getType().getId());
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -122,9 +122,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", ekat);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setCity_name("Eka");
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setCity_name("Eka");
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -141,9 +141,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", ekat);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setCity(ekat.getId());
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setCity(ekat.getId());
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -158,9 +158,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", 432, "University", ekat);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setNumber(432);
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setNumber(432);
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -176,9 +176,9 @@ public class SchoolSearchTest {
         entities.school("URFU", "University", ekat);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setRegion(moscow.getRegion().getId());
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setRegion(moscow.getRegion().getId());
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -194,9 +194,9 @@ public class SchoolSearchTest {
         School urfu = entities.school("URFU", "University", ekat);
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setRegion_name("ural");
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setRegion_name("ural");
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -212,9 +212,9 @@ public class SchoolSearchTest {
         entities.school("URFU", "University", ekat); // not found
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setCountry(berlin.getCountry().getId());
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setCountry(berlin.getCountry().getId());
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));
@@ -230,9 +230,9 @@ public class SchoolSearchTest {
         entities.school("URFU", "University", ekat); // not found
 
 
-        SchoolCriteria params = new SchoolCriteria();
-        params.setCountry_name("germany");
-        List<School> schools = search.findBy(params);
+        SchoolCriteria criteria = new SchoolCriteria();
+        criteria.setCountry_name("germany");
+        List<School> schools = search.findBy(criteria);
 
 
         assertThat(schools.size(), is(1));

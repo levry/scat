@@ -19,10 +19,15 @@ import java.util.Set;
 //@EnableJpaRepositories("scat.repo")
 public class ScatConfig {
 
+//    @Bean
+//    public Jackson2ObjectMapperBuilder jacksonBuilder(EntityManager entityManager) {
+//        return new Jackson2ObjectMapperBuilder()
+//                .modules(new EntityJsonModule(entityManager));
+//    }
+
     @Bean
-    public Jackson2ObjectMapperBuilder jacksonBuilder(EntityManager entityManager) {
-        return new Jackson2ObjectMapperBuilder()
-                .modules(new EntityJsonModule(entityManager));
+    public EntityJsonModule entityJsonModule(EntityManager entityManager) {
+        return new EntityJsonModule(entityManager);
     }
 
     /*private JsonDeserializer<?>[] collectDeserializersForEntities(EntityManager entityManager) {

@@ -5,7 +5,12 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
+
+import static javax.persistence.criteria.JoinType.INNER;
+import static javax.persistence.criteria.JoinType.LEFT;
 
 /**
  * @author levry
@@ -35,6 +40,7 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
 
         Predicate[] predicates = specs.stream()
                 .map(spec -> spec.toPredicate(root, query, builder))
+                .filter(Objects::nonNull)
                 .toArray(Predicate[]::new);
         return builder.and(predicates);
     }
@@ -49,18 +55,35 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
     @Override
     public void ilike(String property, String value) {
         specs.add((root, query, builder) ->
-                builder.like(builder.lower(root.get(property)), value.toLowerCase() + '%')
+            builder.like(builder.lower(root.get(property)), value.toLowerCase() + '%')
         );
     }
 
     // joins
 
     public <R> void join(String path, Consumer<SpecificationBuilder<R>> builderConsumer) {
-        specs.add((root, query, criteriaBuilder) -> {
+        specs.add(joinSpec(builderConsumer, root -> root.join(path)));
+    }
+
+    public <R> void fetch(String path, Consumer<SpecificationBuilder<R>> builderConsumer) {
+        fetch(path, INNER, builderConsumer);
+    }
+
+    public <R> void leftFetch(String path, Consumer<SpecificationBuilder<R>> builderConsumer) {
+        fetch(path, LEFT, builderConsumer);
+    }
+
+    public <R> void fetch(String path, JoinType joinType, Consumer<SpecificationBuilder<R>> builderConsumer) {
+        specs.add(joinSpec(builderConsumer, root -> (From<?, ?>) root.fetch(path, joinType)));
+    }
+
+    private <R> Spec joinSpec(Consumer<SpecificationBuilder<R>> builderConsumer,
+                              Function<From<?, ?>, From<?, ?>> joiner) {
+        return (root, query, criteriaBuilder) -> {
             SpecificationBuilder<R> joinBuilder = new SpecificationBuilder<>();
             builderConsumer.accept(joinBuilder);
-            return joinBuilder.buildPredicate(root.join(path), query, criteriaBuilder);
-        });
+            return joinBuilder.buildPredicate(joiner.apply(root), query, criteriaBuilder);
+        };
     }
 
 }

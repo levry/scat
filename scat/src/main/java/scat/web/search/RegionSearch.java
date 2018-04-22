@@ -3,6 +3,7 @@ package scat.web.search;
 import org.springframework.util.StringUtils;
 import scat.data.Region;
 import scat.repo.RegionRepository;
+import scat.repo.support.SpecificationBuilder;
 
 import java.util.List;
 
@@ -19,13 +20,18 @@ public class RegionSearch {
 
     public List<Region> findBy(RegionCriteria criteria) {
 
-        SearchFilters<Region> filters = new SearchFilters<>();
-        filters.byIdAndName(criteria.id, criteria.name);
-        if (criteria.hasCountryBy()) {
-            filters.joinByIdAndName("country", criteria.country, criteria.country_name);
-        }
+        SpecificationBuilder<Region> builder = new SpecificationBuilder<>();
+        builder.notNulls(region -> {
+            region.eq("id", criteria.id);
+            region.ilike("name", criteria.name);
+        });
+        builder.fetch("country", countrySpec ->
+            countrySpec.notNulls(country -> {
+                country.eq("id", criteria.country);
+                country.ilike("name", criteria.country_name);
+        }));
 
-        return repository.findAll(filters.specification());
+        return repository.findAll(builder);
     }
 
     public static class RegionCriteria {
