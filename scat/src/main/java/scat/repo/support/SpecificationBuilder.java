@@ -52,6 +52,16 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
         specs.add((root, query, builder) -> builder.equal(root.get(property), value));
     }
 
+    public void eq(String property, String value) {
+        specs.add((root, query, builder) ->
+            builder.equal(builder.lower(root.get(property)), value.toLowerCase())
+        );
+    }
+
+    public void isNull(String property) {
+        specs.add((from, query, builder) -> builder.isNull(from.get(property)));
+    }
+
     @Override
     public void ilike(String property, String value) {
         specs.add((root, query, builder) ->

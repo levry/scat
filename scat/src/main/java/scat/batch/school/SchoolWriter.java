@@ -7,8 +7,8 @@ import scat.data.SchoolType;
 import scat.repo.CityRepository;
 import scat.repo.SchoolRepository;
 import scat.repo.SchoolTypeRepository;
+import scat.repo.support.SpecificationBuilder;
 
-import javax.persistence.criteria.Predicate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 /**
  * @author levry
  */
-// TODO fix cvs source: собрать правильный csv (с экранированием)
 @Component
 public class SchoolWriter {
 
@@ -39,7 +38,7 @@ public class SchoolWriter {
         SchoolWriteResult result = new SchoolWriteResult();
 
         Function<SchoolData, City> cityFind = cityFinder();
-        Function<String, SchoolType> typeFind = typeFinder(result);
+        Function<SchoolData, SchoolType> typeFind = typeFinder(result);
 
         for (SchoolData data : input) {
             City city = cityFind.apply(data);
@@ -48,7 +47,7 @@ public class SchoolWriter {
                 continue;
             }
 
-            SchoolType type = typeFind.apply(data.getType());
+            SchoolType type = typeFind.apply(data);
 
             boolean schoolAdded = addSchool(data, city, type);
             result.schoolAdded(schoolAdded);
@@ -65,39 +64,27 @@ public class SchoolWriter {
         Map<String, City> cities = new HashMap<>();
 
         return data -> {
-            City city = cities.computeIfAbsent(data.keyCity(), key -> {
-                Optional<City> exists = findCityByData(data);
-                return exists.orElse(notFound);
-            });
+            City city = cities.computeIfAbsent(data.keyCity(),
+                    key -> findCityByData(data).orElse(notFound));
 
             return notFound == city ? null : city;
         };
     }
 
     private Optional<City> findCityByData(SchoolData data) {
-        return cities.findOne((root, query, cb) -> {
-            String city = data.getCity();
-            Predicate byName = cb.equal(
-                cb.lower(root.get("name")), city.toLowerCase()
-            );
 
-            String country = data.getCountry();
-            Predicate byCountry = cb.equal(
-                cb.lower(root.join("country").get("name")), country.toLowerCase()
-            );
-
-            String region = data.getRegion();
-            Predicate byRegion = null != region ?
-                cb.equal(
-                    cb.lower(root.join("region").get("name")), region.toLowerCase()
-                ) :
-                cb.isNull(root.get("region"));
-
-            return cb.and(byName, byCountry, byRegion);
-        });
+        SpecificationBuilder<City> spec = new SpecificationBuilder<>();
+        spec.eq("name", data.getCity());
+        spec.join("country", country -> country.eq("name", data.getCountry()));
+        if (null != data.getRegion()) {
+            spec.join("region", region -> region.eq("name", data.getRegion()));
+        } else {
+            spec.isNull("region");
+        }
+        return cities.findOne(spec);
     }
 
-    private Function<String, SchoolType> typeFinder(SchoolWriteResult result) {
+    private Function<SchoolData, SchoolType> typeFinder(SchoolWriteResult result) {
 
         final Map<String, SchoolType> types = schoolTypes.findAll().stream()
                 .collect(Collectors.toMap(
@@ -105,7 +92,8 @@ public class SchoolWriter {
                     Function.identity()
                 ));
 
-        return name -> {
+        return data -> {
+            String name = data.getType();
             String key = name.toLowerCase();
             return types.computeIfAbsent(key, n -> {
                 result.typeAdded();
@@ -136,10 +124,10 @@ public class SchoolWriter {
     }
 
     private boolean hasSchool(SchoolData data, City city) {
-        return 0 != schools.count((root, query, cb) -> {
-            Predicate byName = cb.equal(cb.lower(root.get("name")), data.getName().toLowerCase());
-            Predicate byCity = cb.equal(root.get("city"), city);
-            return cb.and(byName, byCity);
-        });
+        SpecificationBuilder<School> spec = new SpecificationBuilder<>();
+        spec.eq("name", data.getName());
+        spec.eq("city", city);
+        return 0 != schools.count(spec);
     }
+
 }

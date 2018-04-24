@@ -7,8 +7,8 @@ import scat.data.Region;
 import scat.repo.CityRepository;
 import scat.repo.CountryRepository;
 import scat.repo.RegionRepository;
+import scat.repo.support.SpecificationBuilder;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.function.Function;
 
@@ -115,14 +115,15 @@ public class AddressWriter {
     }
 
     private boolean hasCity(City city) {
-        return 0 != cityRepository.count((root, query, cb) -> {
-            Predicate byName = cb.equal(cb.lower(root.get("name")), city.getName().toLowerCase());
-            Predicate byCountry = cb.equal(root.get("country"), city.getCountry());
-            Predicate byRegion = city.getRegion() != null ?
-                    cb.equal(root.get("region"), city.getRegion()) :
-                    cb.isNull(root.get("region"));
-            return cb.and(byName, byCountry, byRegion);
-        });
+        SpecificationBuilder<City> spec = new SpecificationBuilder<>();
+        spec.eq("name", city.getName());
+        spec.eq("country", city.getCountry());
+        if(null != city.getRegion()) {
+            spec.eq("region", city.getRegion());
+        } else {
+            spec.isNull("region");
+        }
+        return 0 != cityRepository.count(spec);
     }
 
 }
