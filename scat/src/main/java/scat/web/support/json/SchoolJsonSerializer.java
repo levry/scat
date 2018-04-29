@@ -13,22 +13,22 @@ import java.io.IOException;
  */
 @JsonComponent
 public class SchoolJsonSerializer extends JsonObjectSerializer<School> {
+
+    @Override
+    public Class<School> handledType() {
+        return School.class;
+    }
+
     @Override
     protected void serializeObject(School school, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeNumberField("id", school.getId());
-        jgen.writeStringField("name", school.getName());
-        jgen.writeFieldName("number");
-        if(null != school.getNumber()) {
-            jgen.writeNumber(school.getNumber());
-        } else {
-            jgen.writeNull();
-        }
-        jgen.writeFieldName("type");
-        jgen.writeStartObject();
-        jgen.writeNumberField("id", school.getType().getId());
-        jgen.writeStringField("name", school.getType().getName());
-        jgen.writeEndObject();
-        jgen.writeFieldName("city");
-        jgen.writeObject(school.getCity());
+        JsonWriter json = new JsonWriter(jgen);
+        json.field("id", school.getId());
+        json.field("name", school.getName());
+        json.fieldNull("number", school.getNumber());
+        json.fieldObjectIf("type", school.getType(), type -> {
+            json.field("id", type.getId());
+            json.field("name", type.getName());
+        });
+        json.fieldObject("city", school.getCity());
     }
 }

@@ -13,21 +13,28 @@ import java.io.IOException;
  */
 @JsonComponent
 public class CityJsonSerializer extends JsonObjectSerializer<City> {
+
+    @Override
+    public Class<City> handledType() {
+        return City.class;
+    }
+
     @Override
     protected void serializeObject(City value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeNumberField("id", value.getId());
-        jgen.writeStringField("name", value.getName());
-        jgen.writeFieldName("country");
-        jgen.writeStartObject();
-        jgen.writeNumberField("id", value.getCountry().getId());
-        jgen.writeStringField("name", value.getCountry().getName());
-        jgen.writeEndObject();
-        if(null != value.getRegion()) {
-            jgen.writeFieldName("region");
-            jgen.writeStartObject();
-            jgen.writeNumberField("id", value.getRegion().getId());
-            jgen.writeStringField("name", value.getRegion().getName());
-            jgen.writeEndObject();
-        }
+
+        JsonWriter json = new JsonWriter(jgen);
+        json.field("id", value.getId());
+        json.field("name", value.getName());
+
+        json.fieldObjectIf("country", value.getCountry(), country -> {
+            json.field("id", country.getId());
+            json.field("name", country.getName());
+        });
+
+        json.fieldObjectIf("region", value.getRegion(), region -> {
+            json.field("id", region.getId());
+            json.field("name", region.getName());
+        });
     }
+
 }
