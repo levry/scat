@@ -14,8 +14,7 @@ import java.io.IOException;
 public class EntityJsonDeserializer extends StdScalarDeserializer<Object> {
 
     private final Class<?> idType;
-    // TODO пересмотреть на использование repositories
-    private final EntityManager em;
+    private final transient EntityManager em;
 
     public EntityJsonDeserializer(EntityType entityType, EntityManager em) {
         this(entityType.getJavaType(), entityType.getIdType().getJavaType(), em);

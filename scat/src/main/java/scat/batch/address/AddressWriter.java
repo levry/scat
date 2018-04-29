@@ -69,7 +69,7 @@ public class AddressWriter {
     }
 
     private Function<RegionData, Region> createRegion(Map<CountryData, Country> countries) {
-        return (data) -> {
+        return data -> {
             Country country = countries.get(CountryData.of(data.getCountry()));
 
             Region region = new Region();
@@ -106,7 +106,7 @@ public class AddressWriter {
             City city = new City();
             city.setCountry(country);
             city.setRegion(region);
-            city.setName(address.city);
+            city.setName(address.getCity());
             boolean existsCity = hasCity(city);
             if(!existsCity) {
                 cityRepository.save(city);

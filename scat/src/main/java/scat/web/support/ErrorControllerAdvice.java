@@ -1,6 +1,5 @@
 package scat.web.support;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpHeaders;
@@ -27,10 +26,13 @@ import java.util.Map;
 @ControllerAdvice
 public class ErrorControllerAdvice extends ResponseEntityExceptionHandler implements ApplicationContextAware {
 
+    private static final String MESSAGE = "message";
+    private static final String ERRORS = "errors";
+
     private ErrorResponseBuilder errorResponseBuilder;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         errorResponseBuilder = new ErrorResponseBuilder(applicationContext);
     }
 
@@ -39,7 +41,7 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler implem
             EntityNotFoundException.class
     })
     @ResponseBody
-    public ResponseEntity<?> handleNotFound() {
+    public ResponseEntity<Object> handleNotFound() {
         return ResponseEntity.notFound().build();
     }
 
@@ -60,19 +62,19 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler implem
     private Map<String, Object> toErrorResponse(String message, BindingResult result) {
         Map<String, Object> errors = new LinkedHashMap<>();
         if(null == result) {
-            errors.put("message", message);
+            errors.put(MESSAGE, message);
         } else if(result.hasErrors()) {
-            errors.put("message", "Validation failed");
-            errors.put("errors", errorResponseBuilder.collectErrors(result));
+            errors.put(MESSAGE, "Validation failed");
+            errors.put(ERRORS, errorResponseBuilder.collectErrors(result));
         }
         return errors;
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public ResponseEntity<?> handleException(Throwable exception) {
+    public ResponseEntity<Map<String, String>> handleException(Throwable exception) {
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", exception.getMessage());
+        errors.put(MESSAGE, exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
     }
 

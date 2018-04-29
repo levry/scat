@@ -7,9 +7,9 @@ import org.springframework.core.style.ToStringCreator;
  */
 public class Address {
 
-    public String country;
-    public String region;
-    public String city;
+    private String country;
+    private String region;
+    private String city;
 
     public String getCountry() {
         return country;

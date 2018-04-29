@@ -1,7 +1,6 @@
 package scat.web.support.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import scat.data.City;
 
 import java.io.IOException;
 

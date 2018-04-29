@@ -51,7 +51,7 @@ class CountryData {
     }
 
     static CountryData of(Address address) {
-        return of(address.country);
+        return of(address.getCountry());
     }
 
     static CountryData of(Country country) {

@@ -16,7 +16,7 @@ class RegionData {
 
     private final String country;
     private final String name;
-    private final transient int hashCode;
+    private final int hashCode;
 
     private RegionData(String country, String name) {
         this.country = country;
@@ -58,10 +58,10 @@ class RegionData {
     }
 
     static RegionData of(Address address) {
-        if (StringUtils.isEmpty(address.region)) {
+        if (StringUtils.isEmpty(address.getRegion())) {
             return null;
         }
-        return new RegionData(address.country, address.region);
+        return new RegionData(address.getCountry(), address.getRegion());
     }
 
     static RegionData of(Region region) {

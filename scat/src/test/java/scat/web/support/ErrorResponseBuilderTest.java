@@ -13,8 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,11 +33,11 @@ public class ErrorResponseBuilderTest {
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
         assertNotNull(errors);
-        assertEquals(errors.size(), 1);
+        assertThat(errors.size(), is(1));
 
         Map error = errors.get(0);
-        assertEquals(error.get("message"), "This is error message");
-        assertEquals(error.get("code"), "test");
+        assertThat(error.get("message"), is("This is error message"));
+        assertThat(error.get("code"), is("test"));
     }
 
     @Test
@@ -50,11 +51,11 @@ public class ErrorResponseBuilderTest {
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
         assertNotNull(errors);
-        assertEquals(errors.size(), 1);
+        assertThat(errors.size(), is(1));
 
         Map error = errors.get(0);
-        assertEquals(error.get("message"), "Test message");
-        assertEquals(error.get("field"), "testField");
+        assertThat(error.get("message"), is("Test message"));
+        assertThat(error.get("field"), is("testField"));
     }
 
     private BindingResult bindingResult(ObjectError... errors) {

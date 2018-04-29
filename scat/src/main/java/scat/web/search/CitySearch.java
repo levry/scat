@@ -1,6 +1,5 @@
 package scat.web.search;
 
-import org.springframework.util.StringUtils;
 import scat.data.City;
 import scat.repo.CityRepository;
 import scat.repo.support.SpecificationBuilder;
@@ -33,12 +32,11 @@ public class CitySearch {
                 country.ilike("name", criteria.country_name);
             })
         );
-        spec.fetch("region", LEFT, regionSpec -> {
-            regionSpec.notNulls(region -> {
+        spec.fetch("region", LEFT, regionSpec -> regionSpec
+            .notNulls(region -> {
                 region.eq("id", criteria.region);
                 region.ilike("name", criteria.region_name);
-            });
-        });
+        }));
 
         return repository.findAll(spec);
     }
@@ -99,10 +97,5 @@ public class CitySearch {
         public void setRegion_name(String region_name) {
             this.region_name = region_name;
         }
-
-        private boolean hasCountryBy() {
-            return null != country || StringUtils.hasText(country_name);
-        }
-
     }
 }

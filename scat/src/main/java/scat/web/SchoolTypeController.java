@@ -11,7 +11,6 @@ import javax.validation.Valid;
 /**
  * @author levry
  */
-// TODO выделить тестовую конфигурацию (отдельная бд и тд)
 @RestController
 @RequestMapping("/school_types")
 public class SchoolTypeController {

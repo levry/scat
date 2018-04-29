@@ -1,6 +1,5 @@
 package scat.web.search;
 
-import org.springframework.util.StringUtils;
 import scat.data.Region;
 import scat.repo.RegionRepository;
 import scat.repo.support.SpecificationBuilder;
@@ -71,10 +70,6 @@ public class RegionSearch {
 
         public void setCountry_name(String country_name) {
             this.country_name = country_name;
-        }
-
-        private boolean hasCountryBy() {
-            return country != null || StringUtils.hasText(country_name);
         }
     }
 }

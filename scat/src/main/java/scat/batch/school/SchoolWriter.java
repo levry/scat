@@ -22,15 +22,15 @@ import java.util.stream.Collectors;
 public class SchoolWriter {
 
     private final SchoolTypeRepository schoolTypes;
-    private final CityRepository cities;
-    private final SchoolRepository schools;
+    private final CityRepository cityRepository;
+    private final SchoolRepository schoolRepository;
 
     public SchoolWriter(SchoolTypeRepository schoolTypes,
-                        CityRepository cities,
-                        SchoolRepository schools) {
+                        CityRepository cityRepository,
+                        SchoolRepository schoolRepository) {
         this.schoolTypes = schoolTypes;
-        this.cities = cities;
-        this.schools = schools;
+        this.cityRepository = cityRepository;
+        this.schoolRepository = schoolRepository;
     }
 
     public SchoolWriteResult put(Iterable<SchoolData> input) {
@@ -81,7 +81,7 @@ public class SchoolWriter {
         } else {
             spec.isNull("region");
         }
-        return cities.findOne(spec);
+        return cityRepository.findOne(spec);
     }
 
     private Function<SchoolData, SchoolType> typeFinder(SchoolWriteResult result) {
@@ -119,7 +119,7 @@ public class SchoolWriter {
         school.setNumber(data.getNumber());
         school.setCity(city);
         school.setType(type);
-        schools.save(school);
+        schoolRepository.save(school);
         return true;
     }
 
@@ -127,7 +127,7 @@ public class SchoolWriter {
         SpecificationBuilder<School> spec = new SpecificationBuilder<>();
         spec.eq("name", data.getName());
         spec.eq("city", city);
-        return 0 != schools.count(spec);
+        return 0 != schoolRepository.count(spec);
     }
 
 }

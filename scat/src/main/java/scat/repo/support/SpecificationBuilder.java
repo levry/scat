@@ -3,6 +3,7 @@ package scat.repo.support;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,10 +16,9 @@ import static javax.persistence.criteria.JoinType.LEFT;
 /**
  * @author levry
  */
-// TODO test it
 public class SpecificationBuilder<T> implements Specification<T>, Criteria {
 
-    private interface Spec {
+    private interface Spec extends Serializable {
         Predicate toPredicate(From<?, ?> from, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder);
     }
 
