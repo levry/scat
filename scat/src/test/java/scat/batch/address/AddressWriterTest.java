@@ -1,12 +1,12 @@
 package scat.batch.address;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.City;
@@ -22,16 +22,16 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class AddressWriterTest {
+class AddressWriterTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -50,14 +50,14 @@ public class AddressWriterTest {
 
     private Entities entities;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
     }
 
     @Transactional
     @Test
-    public void put_address() {
+    void put_address() {
         List<Address> input = singletonList(address("Russia", "Central", "Moscow"));
 
         addressWriter.put(input);
@@ -71,7 +71,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void put_address_without_region() {
+    void put_address_without_region() {
 
         List<Address> input = singletonList(address("Russia", null, "Moscow"));
 
@@ -86,7 +86,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void put_address_with_exists_country() {
+    void put_address_with_exists_country() {
         Country country = entities.country("Germany");
 
         Collection<Address> input = singletonList(address("Germany", null, "Berlin"));
@@ -101,7 +101,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void put_address_with_exists_region() {
+    void put_address_with_exists_region() {
         Country country = entities.country("Canada");
         Region region = entities.region("Ontario", country);
 
@@ -118,7 +118,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void put_address_with_exists_city() {
+    void put_address_with_exists_city() {
         entities.city("Paris", "France");
 
         Collection<Address> input = singletonList(address("France", null, "Paris"));
@@ -130,7 +130,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void should_not_create_city_if_exists_similar() {
+    void should_not_create_city_if_exists_similar() {
         entities.city("Beijing", "China");
 
         Collection<Address> input = singletonList(address("China", null, "BEIJING"));
@@ -141,7 +141,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void should_not_create_country_if_exists_similar() {
+    void should_not_create_country_if_exists_similar() {
         entities.country("China");
 
         Collection<Address> input = singletonList(address("CHINA", null, "BEIJING"));
@@ -152,7 +152,7 @@ public class AddressWriterTest {
 
     @Transactional
     @Test
-    public void put_multiple_addresses() {
+    void put_multiple_addresses() {
         Collection<Address> input = Arrays.asList(
                 address("Russia", "Ural", "Omsk"),
                 address("Germany", "Bavaria", "Bremen"),

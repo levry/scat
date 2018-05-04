@@ -1,7 +1,7 @@
 package scat.web.support.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.util.JsonExpectationsHelper;
 import scat.data.*;
 
@@ -10,7 +10,7 @@ import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilde
 /**
  * @author levry
  */
-public class SchoolJsonSerializerTest {
+class SchoolJsonSerializerTest {
 
     private final ObjectMapper objectMapper = json()
             .serializers(new CityJsonSerializer(), new SchoolJsonSerializer())
@@ -19,7 +19,7 @@ public class SchoolJsonSerializerTest {
     private final JsonExpectationsHelper jsonHelper = new JsonExpectationsHelper();
 
     @Test
-    public void serialize_empty() throws Exception {
+    void serialize_empty() throws Exception {
         School school = new School();
 
         String json = objectMapper.writeValueAsString(school);
@@ -28,7 +28,7 @@ public class SchoolJsonSerializerTest {
     }
 
     @Test
-    public void serialize_school() throws Exception {
+    void serialize_school() throws Exception {
         School school = new School();
         school.setId(1L);
         school.setName("URFU");
@@ -47,7 +47,7 @@ public class SchoolJsonSerializerTest {
     }
 
     @Test
-    public void serialize_with_null_type() throws Exception {
+    void serialize_with_null_type() throws Exception {
         School school = new School();
         school.setId(1L);
         school.setName("URFU");
@@ -65,7 +65,7 @@ public class SchoolJsonSerializerTest {
     }
 
     @Test
-    public void serialize_with_null_city() throws Exception {
+    void serialize_with_null_city() throws Exception {
         School school = new School();
         school.setId(1L);
         school.setName("URFU");
@@ -81,7 +81,7 @@ public class SchoolJsonSerializerTest {
     }
 
     @Test
-    public void number_should_by_null_if_they_is_null() throws Exception {
+    void number_should_by_null_if_they_is_null() throws Exception {
         School school = new School();
         school.setId(1L);
         school.setName("URFU");

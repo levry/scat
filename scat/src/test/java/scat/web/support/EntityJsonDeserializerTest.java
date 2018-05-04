@@ -1,8 +1,7 @@
 package scat.web.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import scat.data.Country;
 import scat.web.model.RegionModel;
@@ -12,21 +11,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.Type;
-
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
  * @author levry
  */
-public class EntityJsonDeserializerTest {
+class EntityJsonDeserializerTest {
 
     @Test
-    public void deserialize_domain_in_field() throws Exception {
+    void deserialize_domain_in_field() throws Exception {
 
         Country country = country(23, "Russia");
 
@@ -37,24 +38,24 @@ public class EntityJsonDeserializerTest {
         String json = "{\"name\": \"Ural\", \"country\": 23}";
         RegionModel model = mapper.readValue(json, RegionModel.class);
 
-        Assert.assertThat(model.getName(), is("Ural"));
-        Assert.assertThat(model.getCountry(), is(country));
+        assertThat(model.getName(), is("Ural"));
+        assertThat(model.getCountry(), is(country));
     }
 
     @Test
-    public void deserialize_domain() throws Exception {
+    void deserialize_domain() throws Exception {
         EntityManager entityManager = mockEntityManager();
         ObjectMapper mapper = objectMapper(entityManager);
 
         String json = "{ \"id\": 2, \"name\": \"Russia\" }";
         Country country = mapper.readValue(json, Country.class);
 
-        Assert.assertThat(country.getId(), is(2));
-        Assert.assertThat(country.getName(), is("Russia"));
+        assertThat(country.getId(), is(2));
+        assertThat(country.getName(), is("Russia"));
     }
 
     @Test
-    public void deserialize_collection_domains() throws Exception {
+    void deserialize_collection_domains() throws Exception {
         Country russia = country(23, "Russia");
         Country germany = country(3, "Germany");
 
@@ -66,11 +67,11 @@ public class EntityJsonDeserializerTest {
         String json = "{\"countries\": [23, 3]}";
         CountryList model = mapper.readValue(json, CountryList.class);
 
-        Assert.assertEquals(model.getCountries(), Arrays.asList(russia, germany));
+        assertEquals(model.getCountries(), Arrays.asList(russia, germany));
     }
 
     @Test
-    public void deserialize_array_domains() throws Exception {
+    void deserialize_array_domains() throws Exception {
         Country russia = country(23, "Russia");
         Country germany = country(3, "Germany");
 
@@ -82,7 +83,7 @@ public class EntityJsonDeserializerTest {
         String json = "{\"countries\": [23, 3]}";
         CountryArray model = mapper.readValue(json, CountryArray.class);
 
-        Assert.assertArrayEquals(new Country[] {russia, germany}, model.getCountries());
+        assertArrayEquals(new Country[] {russia, germany}, model.getCountries());
     }
 
     private EntityManager mockEntityManager() {

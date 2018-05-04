@@ -1,6 +1,6 @@
 package scat.web.support;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.validation.BindingResult;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,16 +23,16 @@ import static org.mockito.Mockito.when;
 /**
  * @author levry
  */
-public class ErrorResponseBuilderTest {
+class ErrorResponseBuilderTest {
 
     @Test
-    public void exception_with_object_error() {
+    void exception_with_object_error() {
         BindingResult bindingResult = bindingResult(objectError("test", "This is error message"));
 
         ErrorResponseBuilder builder = new ErrorResponseBuilder(stubContext());
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
-        assertNotNull(errors);
+        assertThat(errors, notNullValue());
         assertThat(errors.size(), is(1));
 
         Map error = errors.get(0);
@@ -41,7 +41,7 @@ public class ErrorResponseBuilderTest {
     }
 
     @Test
-    public void exception_with_field_error() {
+    void exception_with_field_error() {
 
         ObjectError fieldError = new FieldError("test", "testField", "Test message");
         BindingResult bindingResult = bindingResult(fieldError);
@@ -50,7 +50,7 @@ public class ErrorResponseBuilderTest {
 
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
-        assertNotNull(errors);
+        assertThat(errors, notNullValue());
         assertThat(errors.size(), is(1));
 
         Map error = errors.get(0);

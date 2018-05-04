@@ -1,12 +1,12 @@
 package scat.web;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.data.Country;
@@ -14,8 +14,8 @@ import scat.repo.CountryRepository;
 
 import javax.persistence.EntityNotFoundException;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -27,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CountryControllerTest {
+class CountryControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -39,7 +39,7 @@ public class CountryControllerTest {
     private CountryRepository countryRepository;
 
     @Test
-    public void get_country_by_id() throws Exception {
+    void get_country_by_id() throws Exception {
 
         Country country = country(66, "Russia");
         when(countryRepository.findOne(66)).thenReturn(country);
@@ -51,7 +51,7 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void should_be_404_if_not_found_by_id() throws Exception {
+    void should_be_404_if_not_found_by_id() throws Exception {
         when(countryRepository.findOne(4)).thenThrow(EntityNotFoundException.class);
 
         mvc.perform(get("/countries/4")).andDo(print())
@@ -59,7 +59,7 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void post_country() throws Exception {
+    void post_country() throws Exception {
         Country country = country(1, "Russia");
         when(countryRepository.save(any(Country.class))).thenReturn(country);
 
@@ -76,7 +76,7 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void update_country() throws Exception {
+    void update_country() throws Exception {
         Country country = country(5, "France");
         when(countryRepository.getOne(eq(5))).thenReturn(country);
         when(countryRepository.save(any(Country.class))).thenReturn(country);
@@ -94,7 +94,7 @@ public class CountryControllerTest {
     }
 
     @Test
-    public void delete_country() throws Exception {
+    void delete_country() throws Exception {
         mvc.perform(delete("/countries/{id}", 66)).andDo(print())
                 .andExpect(status().isNoContent());
 

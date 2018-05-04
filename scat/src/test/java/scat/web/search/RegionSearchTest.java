@@ -1,12 +1,12 @@
 package scat.web.search;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.Country;
@@ -14,21 +14,20 @@ import scat.data.Region;
 import scat.repo.RegionRepository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
-import static scat.web.search.RegionSearch.*;
+import static scat.web.search.RegionSearch.RegionCriteria;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class RegionSearchTest {
+class RegionSearchTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -40,15 +39,15 @@ public class RegionSearchTest {
 
     private RegionSearch search;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
         search = new RegionSearch(repository);
     }
 
     @Transactional
     @Test
-    public void find_by_name_starts_with() {
+    void find_by_name_starts_with() {
 
         Country russia = entities.country("Russia");
         Region ural = entities.region("Ural", russia);
@@ -66,7 +65,7 @@ public class RegionSearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_name_starts_with() {
+    void find_by_country_name_starts_with() {
 
         Country russia = entities.country("Russia");
         Country germany = entities.country("Germany");
@@ -87,7 +86,7 @@ public class RegionSearchTest {
 
     @Transactional
     @Test
-    public void find_by_id() {
+    void find_by_id() {
         Country russia = entities.country("Russia");
         Region ural = entities.region("Ural", russia);
         entities.region("Syberia", russia);
@@ -103,7 +102,7 @@ public class RegionSearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_id() {
+    void find_by_country_id() {
         Country russia = entities.country("Russia");
         Country germany = entities.country("Germany");
 

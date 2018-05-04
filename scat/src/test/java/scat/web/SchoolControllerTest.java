@@ -1,13 +1,13 @@
 package scat.web;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +21,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
 import static java.lang.String.format;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SchoolControllerTest {
@@ -50,14 +50,14 @@ public class SchoolControllerTest {
 
     private Entities entities;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
     }
 
     @Test
     @Transactional
-    public void get_school() throws Exception {
+    void get_school() throws Exception {
         SchoolType schoolType = entities.schoolType("University");
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
 
@@ -81,7 +81,7 @@ public class SchoolControllerTest {
     }
 
     @Test
-    public void should_be_404_if_not_found_school() throws Exception {
+    void should_be_404_if_not_found_school() throws Exception {
         when(repository.findOne(eq(81L))).thenThrow(EntityNotFoundException.class);
 
         mvc.perform(get("/schools/{id}", 81)).andDo(print())
@@ -90,7 +90,7 @@ public class SchoolControllerTest {
 
     @Test
     @Transactional
-    public void post_school() throws Exception {
+    void post_school() throws Exception {
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
         SchoolType schoolType = entities.schoolType("University");
 
@@ -124,7 +124,7 @@ public class SchoolControllerTest {
 
     @Test
     @Transactional
-    public void update_school() throws Exception {
+    void update_school() throws Exception {
         SchoolType colledge = entities.schoolType("Colledge");
         City moscow = entities.city("Moscow", null, "Russia");
 
@@ -163,7 +163,7 @@ public class SchoolControllerTest {
     }
 
     @Test
-    public void delete_school() throws Exception {
+    void delete_school() throws Exception {
         mvc.perform(delete("/schools/{id}", 15L)).andDo(print())
                 .andExpect(status().isNoContent());
 

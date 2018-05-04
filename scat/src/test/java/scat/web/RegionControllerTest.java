@@ -1,19 +1,18 @@
 package scat.web;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.Entities;
 import scat.data.Country;
 import scat.data.Region;
-import scat.repo.CountryRepository;
 import scat.repo.RegionRepository;
 
 import javax.persistence.EntityManager;
@@ -21,8 +20,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import static java.lang.String.format;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -34,10 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RegionControllerTest {
+class RegionControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -45,22 +44,19 @@ public class RegionControllerTest {
     @MockBean
     private RegionRepository regionRepository;
 
-    @MockBean
-    private CountryRepository countryRepository;
-
     @Autowired
     private EntityManager entityManager;
 
     private Entities entities;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
     }
 
     @Test
     @Transactional
-    public void get_region() throws Exception {
+    void get_region() throws Exception {
 
         Country country = entities.country("Russia");
         Region region = entities.region("Sverdlovskaya obl", country);
@@ -75,7 +71,7 @@ public class RegionControllerTest {
     }
 
     @Test
-    public void should_be_404_if_not_found_region() throws Exception {
+    void should_be_404_if_not_found_region() throws Exception {
         when(regionRepository.findOne(eq(196))).thenThrow(EntityNotFoundException.class);
 
         mvc.perform(get("/regions/{id}", 196)).andDo(print())
@@ -84,7 +80,7 @@ public class RegionControllerTest {
 
     @Test
     @Transactional
-    public void post_region() throws Exception {
+    void post_region() throws Exception {
 
         Country country = entities.country("Russia");
 
@@ -109,9 +105,7 @@ public class RegionControllerTest {
     }
 
     @Test
-    public void should_be_bad_request_if_not_found_country() throws Exception {
-//        when(countryRepository.findOne(66)).thenReturn(null);
-
+    void should_be_bad_request_if_not_found_country() throws Exception {
         RequestBuilder dataPost = post("/regions")
                 .contentType(APPLICATION_JSON_UTF8)
                 .content("{ \"name\": \"Test\", \"country\": 66}");
@@ -122,7 +116,7 @@ public class RegionControllerTest {
 
     @Test
     @Transactional
-    public void update_name_of_region() throws Exception {
+    void update_name_of_region() throws Exception {
         Country country = entities.country("Russia");
         Region region = entities.region("Test", country);
 
@@ -145,7 +139,7 @@ public class RegionControllerTest {
 
     @Test
     @Transactional
-    public void update_country_of_region() throws Exception {
+    void update_country_of_region() throws Exception {
         Country russia = entities.country("Russia");
         Country france = entities.country("France");
 
@@ -169,7 +163,7 @@ public class RegionControllerTest {
     }
 
     @Test
-    public void delete_region() throws Exception {
+    void delete_region() throws Exception {
 
         mvc.perform(delete("/regions/{id}", 15)).andDo(print())
                 .andExpect(status().isNoContent());

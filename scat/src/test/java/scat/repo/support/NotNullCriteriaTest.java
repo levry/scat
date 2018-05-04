@@ -1,16 +1,16 @@
 package scat.repo.support;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
 /**
  * @author levry
  */
-public class NotNullCriteriaTest {
+class NotNullCriteriaTest {
 
     @Test
-    public void eq_should_filter_if_value_is_not_null() {
+    void eq_should_filter_if_value_is_not_null() {
         Criteria criteria = mock(Criteria.class);
         Criteria notNulls = new NotNullCriteria(criteria);
 
@@ -20,7 +20,7 @@ public class NotNullCriteriaTest {
     }
 
     @Test
-    public void eq_should_no_filter_if_value_is_null() {
+    void eq_should_no_filter_if_value_is_null() {
         Criteria criteria = mock(Criteria.class);
         Criteria notNulls = new NotNullCriteria(criteria);
 
@@ -30,7 +30,7 @@ public class NotNullCriteriaTest {
     }
 
     @Test
-    public void ilike_should_filter_if_value_has_text() {
+    void ilike_should_filter_if_value_has_text() {
         Criteria criteria = mock(Criteria.class);
         Criteria notNulls = new NotNullCriteria(criteria);
 
@@ -40,7 +40,7 @@ public class NotNullCriteriaTest {
     }
 
     @Test
-    public void ilike_should_no_filter_if_value_no_text() {
+    void ilike_should_no_filter_if_value_no_text() {
         Criteria criteria = mock(Criteria.class);
         Criteria notNulls = new NotNullCriteria(criteria);
 

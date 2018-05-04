@@ -1,12 +1,12 @@
 package scat.web.search;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.City;
@@ -15,18 +15,18 @@ import scat.repo.CityRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static scat.web.search.CitySearch.CityCriteria;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class CitySearchTest {
+class CitySearchTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -38,15 +38,15 @@ public class CitySearchTest {
 
     private CitySearch search;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
         search = new CitySearch(repository);
     }
 
     @Transactional
     @Test
-    public void find_by_name_starts_with() {
+    void find_by_name_starts_with() {
 
         City city = entities.city("Ekaterinburg", "Russia");
         entities.city("Moscow", "Russia");
@@ -62,7 +62,7 @@ public class CitySearchTest {
 
     @Transactional
     @Test
-    public void find_by_id() {
+    void find_by_id() {
 
         City city = entities.city("Ekaterinburg", "Russia");
         entities.city("Moscow", "Russia");
@@ -78,7 +78,7 @@ public class CitySearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_name() {
+    void find_by_country_name() {
 
         City ekat = entities.city("Ekaterinburg", "Russia");
         City moscow = entities.city("Moscow", "Russia");
@@ -95,7 +95,7 @@ public class CitySearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_id() {
+    void find_by_country_id() {
         entities.city("Ekaterinburg", "Russia");
         entities.city("Moscow", "Russia");
         City berlin = entities.city("Berlin", "Germany");
@@ -111,7 +111,7 @@ public class CitySearchTest {
 
     @Transactional
     @Test
-    public void find_by_region_name() {
+    void find_by_region_name() {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         entities.city("Moscow", "Russia");
 
@@ -126,7 +126,7 @@ public class CitySearchTest {
 
     @Transactional
     @Test
-    public void find_by_region_id() {
+    void find_by_region_id() {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         entities.city("Moscow", "Russia");
 

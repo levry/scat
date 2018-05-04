@@ -1,12 +1,12 @@
 package scat.web.search;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.SchoolType;
@@ -15,17 +15,17 @@ import scat.repo.SchoolTypeRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class SchoolTypeSearchTest {
+class SchoolTypeSearchTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -37,15 +37,15 @@ public class SchoolTypeSearchTest {
 
     private SchoolTypeSearch search;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
         search = new SchoolTypeSearch(repository);
     }
 
     @Transactional
     @Test
-    public void find_by_name_starts_with() {
+    void find_by_name_starts_with() {
 
         SchoolType academy = entities.schoolType("Academy");
         entities.schoolType("Colledge");
@@ -61,7 +61,7 @@ public class SchoolTypeSearchTest {
 
     @Transactional
     @Test
-    public void find_by_id() {
+    void find_by_id() {
 
         SchoolType academy = entities.schoolType("Academy");
         entities.schoolType("Colledge");

@@ -1,12 +1,12 @@
 package scat.web.search;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.City;
@@ -16,18 +16,18 @@ import scat.repo.SchoolRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static scat.web.search.SchoolSearch.SchoolCriteria;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class SchoolSearchTest {
+class SchoolSearchTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -39,15 +39,15 @@ public class SchoolSearchTest {
 
     private SchoolSearch search;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
         search = new SchoolSearch(repository);
     }
 
     @Transactional
     @Test
-    public void find_by_name_starts_with() {
+    void find_by_name_starts_with() {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.school("School 4", "School", city);
         School urfu = entities.school("URFU", "University", city);
@@ -64,7 +64,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_id() {
+    void find_by_id() {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.school("School 4", "School", city);
         School urfu = entities.school("URFU", "University", city);
@@ -81,7 +81,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_type_name() {
+    void find_by_type_name() {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.school("School 4", "School", city);
         School urfu = entities.school("URFU", "University", city);
@@ -98,7 +98,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_type_id() {
+    void find_by_type_id() {
         City city = entities.city("Ekaterinburg", "Russia");
         entities.school("School 4", "School", city);
         School urfu = entities.school("URFU", "University", city);
@@ -115,7 +115,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_city_name() {
+    void find_by_city_name() {
         City ekat = entities.city("Ekaterinburg", "Russia");
         City moscow = entities.city("Moscow", "Russia");
         entities.school("School 4", "School", moscow);
@@ -133,7 +133,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_city_id() {
+    void find_by_city_id() {
 
         City ekat = entities.city("Ekaterinburg", "Russia");
         City moscow = entities.city("Moscow", "Russia");
@@ -152,7 +152,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_number() {
+    void find_by_number() {
         City ekat = entities.city("Ekaterinburg", "Russia");
         entities.school("School 4", 4, "School", ekat);
         School urfu = entities.school("URFU", 432, "University", ekat);
@@ -169,7 +169,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_region_id() {
+    void find_by_region_id() {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         City moscow = entities.city("Moscow", "Central", "Russia");
         School school = entities.school("School 4", "School", moscow);
@@ -187,7 +187,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_region_name() {
+    void find_by_region_name() {
         City ekat = entities.city("Ekaterinburg", "Ural", "Russia");
         City moscow = entities.city("Moscow", "Central", "Russia");
         entities.school("School 4", "School", moscow); // not found
@@ -205,7 +205,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_id() {
+    void find_by_country_id() {
         City ekat = entities.city("Ekaterinburg", "Russia");
         City berlin = entities.city("Berlin", "Germany");
         School school = entities.school("School 4", "School", berlin);
@@ -223,7 +223,7 @@ public class SchoolSearchTest {
 
     @Transactional
     @Test
-    public void find_by_country_name() {
+    void find_by_country_name() {
         City ekat = entities.city("Ekaterinburg", "Russia");
         City berlin = entities.city("Berlin", "Germany");
         School school = entities.school("School 4", "School", berlin);

@@ -1,7 +1,7 @@
 package scat.web.support.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.util.JsonExpectationsHelper;
 import scat.data.City;
 import scat.data.Country;
@@ -12,7 +12,7 @@ import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilde
 /**
  * @author levry
  */
-public class CityJsonSerializerTest {
+class CityJsonSerializerTest {
 
     private final ObjectMapper objectMapper = json()
             .serializers(new CityJsonSerializer())
@@ -21,7 +21,7 @@ public class CityJsonSerializerTest {
     private final JsonExpectationsHelper jsonHelper = new JsonExpectationsHelper();
 
     @Test
-    public void serialize_empty() throws Exception {
+    void serialize_empty() throws Exception {
         City city = new City();
 
         String json = objectMapper.writeValueAsString(city);
@@ -30,7 +30,7 @@ public class CityJsonSerializerTest {
     }
 
     @Test
-    public void serialize_city() throws Exception {
+    void serialize_city() throws Exception {
         City city = new City();
         city.setId(2L);
         city.setName("Ekaterinburg");
@@ -46,7 +46,7 @@ public class CityJsonSerializerTest {
     }
 
     @Test
-    public void serialize_with_null_region() throws Exception {
+    void serialize_with_null_region() throws Exception {
         City city = new City();
         city.setId(2L);
         city.setName("Moscow");
@@ -61,7 +61,7 @@ public class CityJsonSerializerTest {
     }
 
     @Test
-    public void serialize_with_null_country() throws Exception {
+    void serialize_with_null_country() throws Exception {
         City city = new City();
         city.setId(2L);
         city.setName("Ekaterinburg");

@@ -1,12 +1,12 @@
 package scat.batch.school;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.data.City;
@@ -19,16 +19,16 @@ import scat.repo.SchoolTypeRepository;
 import javax.persistence.EntityManager;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class SchoolWriterTest {
+class SchoolWriterTest {
 
     @Autowired
     private SchoolWriter schoolWriter;
@@ -47,14 +47,14 @@ public class SchoolWriterTest {
 
     private Entities entities;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         entities = new Entities(entityManager);
     }
 
     @Transactional
     @Test
-    public void put_school() {
+    void put_school() {
 
         City city = entities.city("Tomsk", "Siberia", "Russia");
 
@@ -83,7 +83,7 @@ public class SchoolWriterTest {
 
     @Transactional
     @Test
-    public void should_be_ignore_case_names_in_city() {
+    void should_be_ignore_case_names_in_city() {
         City city = entities.city("Tomsk", "Siberia", "Russia");
 
         Iterable<SchoolData> input = singletonList(data()
@@ -108,7 +108,7 @@ public class SchoolWriterTest {
 
     @Transactional
     @Test
-    public void should_be_ignore_case_name_in_type() {
+    void should_be_ignore_case_name_in_type() {
 
         entities.city("Tomsk", "Siberia", "Russia");
         SchoolType schoolType = entities.schoolType("University");
@@ -135,7 +135,7 @@ public class SchoolWriterTest {
 
     @Transactional
     @Test
-    public void should_not_create_school_if_city_not_found() {
+    void should_not_create_school_if_city_not_found() {
 
         Iterable<SchoolData> input = singletonList(data()
                 .country("Russia")

@@ -1,12 +1,12 @@
 package scat.web;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.data.SchoolType;
@@ -14,8 +14,8 @@ import scat.repo.SchoolTypeRepository;
 
 import javax.persistence.EntityNotFoundException;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -27,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SchoolTypeControllerTest {
+class SchoolTypeControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -39,7 +39,7 @@ public class SchoolTypeControllerTest {
     private SchoolTypeRepository repository;
 
     @Test
-    public void get_school_type() throws Exception {
+    void get_school_type() throws Exception {
         SchoolType schoolType = new SchoolType();
         schoolType.setId(2);
         schoolType.setName("Academy");
@@ -53,7 +53,7 @@ public class SchoolTypeControllerTest {
     }
 
     @Test
-    public void should_be_404_if_not_found_type() throws Exception {
+    void should_be_404_if_not_found_type() throws Exception {
         when(repository.findOne(eq(6))).thenThrow(EntityNotFoundException.class);
 
         mvc.perform(get("/school_types/{id}", 6)).andDo(print())
@@ -61,7 +61,7 @@ public class SchoolTypeControllerTest {
     }
 
     @Test
-    public void post_school_type() throws Exception {
+    void post_school_type() throws Exception {
 
         when(repository.save(any(SchoolType.class))).then(invocation -> {
             SchoolType input = invocation.getArgument(0);
@@ -82,7 +82,7 @@ public class SchoolTypeControllerTest {
     }
 
     @Test
-    public void update_school_type() throws Exception {
+    void update_school_type() throws Exception {
 
         SchoolType schoolType = new SchoolType();
         schoolType.setId(5);
@@ -104,7 +104,7 @@ public class SchoolTypeControllerTest {
     }
 
     @Test
-    public void delete_school_type() throws Exception {
+    void delete_school_type() throws Exception {
         mvc.perform(delete("/school_types/{id}", 6)).andDo(print())
                 .andExpect(status().isNoContent());
 
