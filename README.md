@@ -1,7 +1,8 @@
+# School catalog
 [![Build Status](https://travis-ci.org/levry/scat.svg?branch=master)](https://travis-ci.org/levry/scat)
+[![CircleCI](https://circleci.com/gh/levry/scat.svg?style=shield)](https://circleci.com/gh/levry/scat)
 [![codecov](https://codecov.io/gh/levry/scat/branch/master/graph/badge.svg)](https://codecov.io/gh/levry/scat)
 
-# School catalog
 
 Catalog of educational institutions
 
