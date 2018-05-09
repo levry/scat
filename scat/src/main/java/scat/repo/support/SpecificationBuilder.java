@@ -49,22 +49,22 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
 
     @Override
     public void eq(String property, Object value) {
-        specs.add((root, query, builder) -> builder.equal(root.get(property), value));
+        by((root, query, builder) -> builder.equal(root.get(property), value));
     }
 
     public void eq(String property, String value) {
-        specs.add((root, query, builder) ->
+        by((root, query, builder) ->
             builder.equal(builder.lower(root.get(property)), value.toLowerCase())
         );
     }
 
     public void isNull(String property) {
-        specs.add((from, query, builder) -> builder.isNull(from.get(property)));
+        by((from, query, builder) -> builder.isNull(from.get(property)));
     }
 
     @Override
     public void ilike(String property, String value) {
-        specs.add((root, query, builder) ->
+        by((root, query, builder) ->
             builder.like(builder.lower(root.get(property)), value.toLowerCase() + '%')
         );
     }
@@ -72,7 +72,7 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
     // joins
 
     public <R> void join(String path, Consumer<SpecificationBuilder<R>> builderConsumer) {
-        specs.add(joinSpec(builderConsumer, root -> root.join(path)));
+        by(joinSpec(builderConsumer, root -> root.join(path)));
     }
 
     public <R> void fetch(String path, Consumer<SpecificationBuilder<R>> builderConsumer) {
@@ -84,7 +84,7 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
     }
 
     public <R> void fetch(String path, JoinType joinType, Consumer<SpecificationBuilder<R>> builderConsumer) {
-        specs.add(joinSpec(builderConsumer, root -> (From<?, ?>) root.fetch(path, joinType)));
+        by(joinSpec(builderConsumer, root -> (From<?, ?>) root.fetch(path, joinType)));
     }
 
     private <R> Spec joinSpec(Consumer<SpecificationBuilder<R>> builderConsumer,
@@ -94,6 +94,10 @@ public class SpecificationBuilder<T> implements Specification<T>, Criteria {
             builderConsumer.accept(joinBuilder);
             return joinBuilder.buildPredicate(joiner.apply(root), query, criteriaBuilder);
         };
+    }
+
+    private void by(Spec spec) {
+        specs.add(spec);
     }
 
 }
