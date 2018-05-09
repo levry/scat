@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @author levry
  */
-public class JsonWriter {
+class JsonWriter {
 
     private final JsonGenerator jgen;
 
@@ -15,25 +15,25 @@ public class JsonWriter {
         this.jgen = jgen;
     }
 
-    public void field(String name, Long value) throws IOException {
+    void field(String name, Long value) throws IOException {
         if (null != value) {
             jgen.writeNumberField(name, value);
         }
     }
 
-    public void field(String name, Integer value) throws IOException {
+    void field(String name, Integer value) throws IOException {
         if (null != value) {
             jgen.writeNumberField(name, value);
         }
     }
 
-    public void field(String name, String value) throws IOException {
+    void field(String name, String value) throws IOException {
         if (null != value) {
             jgen.writeStringField(name, value);
         }
     }
 
-    public <T> void fieldObjectIf(String name, T value, CheckedConsumer<T> consumer) throws IOException {
+    <T> void fieldObjectIf(String name, T value, CheckedConsumer<T> consumer) throws IOException {
         if (null != value) {
             jgen.writeFieldName(name);
             jgen.writeStartObject();
@@ -42,17 +42,16 @@ public class JsonWriter {
         }
     }
 
-    public void fieldNull(String name, Integer value) throws IOException {
+    void fieldNull(String name, Integer value) throws IOException {
         jgen.writeFieldName(name);
         if (null != value) {
             jgen.writeNumber(value);
         } else {
             jgen.writeNull();
         }
-
     }
 
-    public void fieldObject(String name, Object obj) throws IOException {
+    void fieldObject(String name, Object obj) throws IOException {
         jgen.writeObjectField(name, obj);
     }
 
