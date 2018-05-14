@@ -15,7 +15,7 @@ public class Country {
     private Integer id;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     public Integer getId() {

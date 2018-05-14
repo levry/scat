@@ -40,7 +40,7 @@ public class CountryController {
     public Country update(@PathVariable Integer id, @Valid @RequestBody Country model) {
         Country country = repository.getOne(id);
         country.setName(model.getName());
-        return repository.save(model);
+        return repository.save(country);
     }
 
     @DeleteMapping("/{id}")

@@ -2,10 +2,15 @@ package scat;
 
 import scat.data.*;
 
-import javax.persistence.EntityManager; /**
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.Optional;
+
+/**
  * @author levry
  */
 public class Entities {
+
     private final EntityManager entityManager;
 
     public Entities(EntityManager entityManager) {
@@ -13,9 +18,25 @@ public class Entities {
     }
 
     public Country country(String name) {
+        return findCountry(name).orElseGet(() -> newCountry(name));
+    }
+
+    private Country newCountry(String name) {
         Country country = new Country();
         country.setName(name);
         return persist(country);
+    }
+
+    private Optional<Country> findCountry(String name) {
+        try {
+            return Optional.of(entityManager
+                .createQuery("SELECT c FROM Country c WHERE LOWER(c.name) = LOWER(:name)", Country.class)
+                .setParameter("name", name)
+                .getSingleResult()
+            );
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     private <T> T persist(T entity) {
@@ -76,4 +97,6 @@ public class Entities {
         school.setCity(city);
         return persist(school);
     }
+
+
 }

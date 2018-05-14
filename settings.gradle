@@ -1,1 +1,3 @@
 include 'scat'
+include 'scat-test'
+
