@@ -1,5 +1,7 @@
 package scat.web.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import scat.data.Country;
 
 import javax.validation.constraints.NotBlank;
@@ -7,18 +9,12 @@ import javax.validation.constraints.NotBlank;
 /**
  * @author levry
  */
+@Getter
+@Setter
 public class CountryModel {
 
     @NotBlank
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Country createCountry() {
         Country country = new Country();

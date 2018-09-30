@@ -1,5 +1,7 @@
 package scat.web.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import scat.data.SchoolType;
 
 import javax.validation.constraints.NotBlank;
@@ -7,18 +9,12 @@ import javax.validation.constraints.NotBlank;
 /**
  * @author levry
  */
+@Getter
+@Setter
 public class SchoolTypeModel {
 
     @NotBlank
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public SchoolType createSchoolType() {
         SchoolType type = new SchoolType();

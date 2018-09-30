@@ -1,5 +1,6 @@
 package scat.web.search;
 
+import lombok.Setter;
 import scat.data.City;
 import scat.repo.CityRepository;
 import scat.repo.support.SpecificationBuilder;
@@ -41,6 +42,7 @@ public class CitySearch {
         return repository.findAll(spec);
     }
 
+    @Setter
     public static class CityCriteria {
 
         private Long id;
@@ -50,52 +52,5 @@ public class CitySearch {
         private Integer region;
         private String region_name;
 
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Integer getCountry() {
-            return country;
-        }
-
-        public void setCountry(Integer country) {
-            this.country = country;
-        }
-
-        public String getCountry_name() {
-            return country_name;
-        }
-
-        public void setCountry_name(String country_name) {
-            this.country_name = country_name;
-        }
-
-        public Integer getRegion() {
-            return region;
-        }
-
-        public void setRegion(Integer region) {
-            this.region = region;
-        }
-
-        public String getRegion_name() {
-            return region_name;
-        }
-
-        public void setRegion_name(String region_name) {
-            this.region_name = region_name;
-        }
     }
 }
