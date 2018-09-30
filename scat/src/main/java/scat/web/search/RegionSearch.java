@@ -40,7 +40,7 @@ public class RegionSearch {
         private Integer id;
         private String name;
         private Integer country;
-        private String country_name;
+        private String country_name; // NOSONAR
 
     }
 }

@@ -48,9 +48,9 @@ public class CitySearch {
         private Long id;
         private String name;
         private Integer country;
-        private String country_name;
+        private String country_name; // NOSONAR
         private Integer region;
-        private String region_name;
+        private String region_name; // NOSONAR
 
     }
 }

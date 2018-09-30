@@ -9,9 +9,9 @@ import javax.persistence.EntityNotFoundException;
  * @author levry
  */
 @NoRepositoryBean
-public interface DataRepository<T, ID> extends JpaRepository<T, ID> {
+public interface DataRepository<T, I> extends JpaRepository<T, I> {
 
-    default T findOne(ID id) {
+    default T findOne(I id) {
         return findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }

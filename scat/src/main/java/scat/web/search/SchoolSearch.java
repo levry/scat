@@ -67,13 +67,13 @@ public class SchoolSearch {
         private String name;
         private Integer number;
         private Integer type;
-        private String type_name;
+        private String type_name; // NOSONAR
         private Long city;
-        private String city_name;
+        private String city_name; // NOSONAR
         private Integer country;
-        private String country_name;
+        private String country_name; // NOSONAR
         private Integer region;
-        private String region_name;
+        private String region_name; // NOSONAR
 
     }
 }

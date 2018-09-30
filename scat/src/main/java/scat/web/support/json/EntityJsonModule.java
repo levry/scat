@@ -105,9 +105,9 @@ public class EntityJsonModule extends SimpleModule {
                 return CollectionFactory.createCollection(collectionClass, 0);
             }
         }
-    }
 
-    private static boolean isCollection(JavaType propType) {
-        return propType.isCollectionLikeType() || propType.isArrayType();
+        private static boolean isCollection(JavaType propType) {
+            return propType.isCollectionLikeType() || propType.isArrayType();
+        }
     }
 }
