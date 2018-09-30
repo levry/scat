@@ -35,11 +35,15 @@ class JsonWriter {
 
     <T> void fieldObjectIf(String name, T value, CheckedConsumer<T> consumer) throws IOException {
         if (null != value) {
-            jgen.writeFieldName(name);
-            jgen.writeStartObject();
-            consumer.accept(value);
-            jgen.writeEndObject();
+            fieldObject(name, value, consumer);
         }
+    }
+
+    <T> void fieldObject(String name, T value, CheckedConsumer<T> consumer) throws IOException {
+        jgen.writeFieldName(name);
+        jgen.writeStartObject();
+        consumer.accept(value);
+        jgen.writeEndObject();
     }
 
     void fieldNull(String name, Integer value) throws IOException {

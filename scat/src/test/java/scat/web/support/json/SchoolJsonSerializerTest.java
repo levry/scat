@@ -41,9 +41,9 @@ class SchoolJsonSerializerTest {
 
         jsonHelper.assertJsonEqual("{\"id\":1,\"name\":\"URFU\",\"number\":23," +
                 "\"type\":{\"id\":3,\"name\":\"University\"}," +
-                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"," +
-                    "\"country\":{\"id\":2,\"name\":\"Russia\"}," +
-                    "\"region\":{\"id\":66,\"name\":\"Ural\"}}}", json, true);
+                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"}," +
+                "\"country\":{\"id\":2,\"name\":\"Russia\"}," +
+                "\"region\":{\"id\":66,\"name\":\"Ural\"}}", json, true);
     }
 
     @Test
@@ -59,9 +59,9 @@ class SchoolJsonSerializerTest {
         String json = objectMapper.writeValueAsString(school);
 
         jsonHelper.assertJsonEqual("{\"id\":1,\"name\":\"URFU\",\"number\":23," +
-                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"," +
+                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"}," +
                 "\"country\":{\"id\":2,\"name\":\"Russia\"}," +
-                "\"region\":{\"id\":66,\"name\":\"Ural\"}}}", json, true);
+                "\"region\":{\"id\":66,\"name\":\"Ural\"}}", json, true);
     }
 
     @Test
@@ -76,8 +76,7 @@ class SchoolJsonSerializerTest {
         String json = objectMapper.writeValueAsString(school);
 
         jsonHelper.assertJsonEqual("{\"id\":1,\"name\":\"URFU\",\"number\":23," +
-                "\"type\":{\"id\":3,\"name\":\"University\"}," +
-                "\"city\":null}", json, true);
+                "\"type\":{\"id\":3,\"name\":\"University\"}}", json, true);
     }
 
     @Test
@@ -94,9 +93,9 @@ class SchoolJsonSerializerTest {
 
         jsonHelper.assertJsonEqual("{\"id\":1,\"name\":\"URFU\",\"number\":null," +
                 "\"type\":{\"id\":3,\"name\":\"University\"}," +
-                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"," +
+                "\"city\":{\"id\":8,\"name\":\"Ekaterinburg\"}," +
                 "\"country\":{\"id\":2,\"name\":\"Russia\"}," +
-                "\"region\":{\"id\":66,\"name\":\"Ural\"}}}", json, true);
+                "\"region\":{\"id\":66,\"name\":\"Ural\"}}", json, true);
     }
 
     private City city(long id, String name, Country country, Region region) {

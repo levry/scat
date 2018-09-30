@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.boot.jackson.JsonObjectSerializer;
+import scat.data.City;
 import scat.data.School;
 
 import java.io.IOException;
@@ -29,6 +30,23 @@ public class SchoolJsonSerializer extends JsonObjectSerializer<School> {
             json.field("id", type.getId());
             json.field("name", type.getName());
         });
-        json.fieldObject("city", school.getCity());
+
+        City schoolCity = school.getCity();
+        if (schoolCity == null) {
+            return;
+        }
+
+        json.fieldObjectIf("country", schoolCity.getCountry(), country -> {
+            json.field("id", country.getId());
+            json.field("name", country.getName());
+        });
+        json.fieldObjectIf("region", schoolCity.getRegion(), region -> {
+            json.field("id", region.getId());
+            json.field("name", region.getName());
+        });
+        json.fieldObject("city", schoolCity, city -> {
+            json.field("id", city.getId());
+            json.field("name", city.getName());
+        });
     }
 }
