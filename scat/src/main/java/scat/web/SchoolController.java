@@ -27,8 +27,8 @@ public class SchoolController {
     }
 
     @GetMapping
-    public Iterable<School> index(@ModelAttribute SchoolCriteria params) {
-        return schoolSearch.findBy(params);
+    public Iterable<School> index(@ModelAttribute SchoolCriteria criteria) {
+        return schoolSearch.findBy(criteria);
     }
 
     @GetMapping("/{id}")
@@ -37,22 +37,22 @@ public class SchoolController {
     }
 
     @PostMapping
-    public School save(@Valid @RequestBody SchoolModel model) {
+    public School save(@Valid @RequestBody SchoolModel data) {
         School school = new School();
-        school.setName(model.getName());
-        school.setNumber(model.getNumber());
-        school.setType(model.getType());
-        school.setCity(model.getCity());
+        school.setName(data.getName());
+        school.setNumber(data.getNumber());
+        school.setType(data.getType());
+        school.setCity(data.getCity());
         return repository.save(school);
     }
 
     @PutMapping("/{id}")
-    public School update(@PathVariable Long id, @Valid @RequestBody SchoolModel model) {
+    public School update(@PathVariable Long id, @Valid @RequestBody SchoolModel data) {
         School school = repository.getOne(id);
-        school.setName(model.getName());
-        school.setNumber(model.getNumber());
-        school.setType(model.getType());
-        school.setCity(model.getCity());
+        school.setName(data.getName());
+        school.setNumber(data.getNumber());
+        school.setType(data.getType());
+        school.setCity(data.getCity());
         return repository.save(school);
     }
 

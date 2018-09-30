@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.Country;
 import scat.repo.CountryRepository;
+import scat.web.model.CountryModel;
 import scat.web.search.CountrySearch;
 
 import javax.validation.Valid;
@@ -22,8 +23,9 @@ public class CountryController {
     }
 
     @GetMapping
-    public Iterable<Country> index(@ModelAttribute Country params) {
-        return new CountrySearch(repository).findBy(params);
+    public Iterable<Country> index(@ModelAttribute CountryModel criteria) {
+        Country example = criteria.createCountry();
+        return new CountrySearch(repository).findBy(example);
     }
 
     @GetMapping("/{id}")
@@ -32,14 +34,15 @@ public class CountryController {
     }
 
     @PostMapping
-    public Country save(@Valid @RequestBody Country input) {
-        return repository.save(input);
+    public Country save(@Valid @RequestBody CountryModel data) {
+        Country country = data.createCountry();
+        return repository.save(country);
     }
 
     @PutMapping("/{id}")
-    public Country update(@PathVariable Integer id, @Valid @RequestBody Country model) {
+    public Country update(@PathVariable Integer id, @Valid @RequestBody CountryModel data) {
         Country country = repository.getOne(id);
-        country.setName(model.getName());
+        country.setName(data.getName());
         return repository.save(country);
     }
 

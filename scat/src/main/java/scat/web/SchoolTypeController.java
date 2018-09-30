@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.SchoolType;
 import scat.repo.SchoolTypeRepository;
+import scat.web.model.SchoolTypeModel;
 import scat.web.search.SchoolTypeSearch;
 
 import javax.validation.Valid;
@@ -22,8 +23,9 @@ public class SchoolTypeController {
     }
 
     @GetMapping
-    public Iterable<SchoolType> index(@ModelAttribute SchoolType params) {
-        return new SchoolTypeSearch(repository).findBy(params);
+    public Iterable<SchoolType> index(@ModelAttribute SchoolTypeModel criteria) {
+        SchoolType example = criteria.createSchoolType();
+        return new SchoolTypeSearch(repository).findBy(example);
     }
 
     @GetMapping("/{id}")
@@ -32,14 +34,15 @@ public class SchoolTypeController {
     }
 
     @PostMapping
-    public SchoolType save(@Valid @RequestBody SchoolType model) {
-        return repository.save(model);
+    public SchoolType save(@Valid @RequestBody SchoolTypeModel data) {
+        SchoolType type = data.createSchoolType();
+        return repository.save(type);
     }
 
     @PutMapping("/{id}")
-    public SchoolType update(@PathVariable Integer id, @Valid @RequestBody SchoolType model) {
+    public SchoolType update(@PathVariable Integer id, @Valid @RequestBody SchoolTypeModel data) {
         SchoolType schoolType = repository.getOne(id);
-        schoolType.setName(model.getName());
+        schoolType.setName(data.getName());
         return repository.save(schoolType);
     }
 

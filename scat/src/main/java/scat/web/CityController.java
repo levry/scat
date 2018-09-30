@@ -25,8 +25,8 @@ public class CityController {
     }
 
     @GetMapping
-    public Iterable<City> index(@ModelAttribute CityCriteria params) {
-        return new CitySearch(repository).findBy(params);
+    public Iterable<City> index(@ModelAttribute CityCriteria criteria) {
+        return new CitySearch(repository).findBy(criteria);
     }
 
     @GetMapping("/{id}")
@@ -35,20 +35,20 @@ public class CityController {
     }
 
     @PostMapping
-    public City save(@Valid @RequestBody CityModel model) {
+    public City save(@Valid @RequestBody CityModel data) {
         City city = new City();
-        city.setName(model.getName());
-        city.setRegion(model.getRegion());
-        city.setCountry(model.getCountry());
+        city.setName(data.getName());
+        city.setRegion(data.getRegion());
+        city.setCountry(data.getCountry());
         return repository.save(city);
     }
 
     @PutMapping("/{id}")
-    public City update(@PathVariable Long id, @Valid @RequestBody City model) {
+    public City update(@PathVariable Long id, @Valid @RequestBody CityModel data) {
         City city = repository.getOne(id);
-        city.setName(model.getName());
-        city.setRegion(model.getRegion());
-        city.setCountry(model.getCountry());
+        city.setName(data.getName());
+        city.setRegion(data.getRegion());
+        city.setCountry(data.getCountry());
         return repository.save(city);
     }
 

@@ -35,18 +35,18 @@ public class RegionController {
     }
 
     @PostMapping
-    public Region save(@Valid @RequestBody RegionModel model) {
+    public Region save(@Valid @RequestBody RegionModel data) {
         Region region = new Region();
-        region.setName(model.getName());
-        region.setCountry(model.getCountry());
+        region.setName(data.getName());
+        region.setCountry(data.getCountry());
         return repository.save(region);
     }
 
     @PutMapping("/{id}")
-    public Region update(@PathVariable Integer id, @Valid @RequestBody Region model) {
+    public Region update(@PathVariable Integer id, @Valid @RequestBody RegionModel data) {
         Region region = repository.getOne(id);
-        region.setName(model.getName());
-        region.setCountry(model.getCountry());
+        region.setName(data.getName());
+        region.setCountry(data.getCountry());
         return repository.save(region);
     }
 
