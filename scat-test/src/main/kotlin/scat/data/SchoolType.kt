@@ -1,10 +1,10 @@
 package scat.data
 
-data class Country (
+data class SchoolType (
     val id: Int,
     val name: String
 )
 
-data class CountryData (
+data class SchoolTypeData (
     val name: String
 )

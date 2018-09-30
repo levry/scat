@@ -5,3 +5,8 @@ data class Region (
     val name: String,
     val country: Country
 )
+
+data class RegionData(
+    val name: String,
+    val country: Int
+)

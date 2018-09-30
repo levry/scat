@@ -10,15 +10,6 @@ import scat.ApiTest
  */
 class SchoolTypeApiTest : ApiTest("/school_types") {
 
-    data class SchoolTypeData (
-        val name: String
-    )
-
-    data class SchoolType (
-        val id: Int,
-        val name: String
-    )
-
     @Test
     fun `get school type`() {
         val schoolType = resources.create<SchoolType>(SchoolTypeData(name = "Academy"))
@@ -36,7 +27,7 @@ class SchoolTypeApiTest : ApiTest("/school_types") {
     @Test
     fun `post new shool type`() {
         val data = SchoolTypeData(
-            name = "University"
+                name = "University"
         )
 
         val schoolType = resources.create<SchoolType>(data)
