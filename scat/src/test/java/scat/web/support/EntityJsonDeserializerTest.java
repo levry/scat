@@ -11,13 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.Type;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,11 +31,13 @@ class EntityJsonDeserializerTest {
         when(entityManager.find(Country.class, 23)).thenReturn(country);
         ObjectMapper mapper = objectMapper(entityManager);
 
+
         String json = "{\"name\": \"Ural\", \"country\": 23}";
         RegionModel model = mapper.readValue(json, RegionModel.class);
 
-        assertThat(model.getName(), is("Ural"));
-        assertThat(model.getCountry(), is(country));
+
+        assertThat(model.getName()).isEqualTo("Ural");
+        assertThat(model.getCountry()).isEqualTo(country);
     }
 
     @Test
@@ -47,11 +45,13 @@ class EntityJsonDeserializerTest {
         EntityManager entityManager = mockEntityManager();
         ObjectMapper mapper = objectMapper(entityManager);
 
+
         String json = "{ \"id\": 2, \"name\": \"Russia\" }";
         Country country = mapper.readValue(json, Country.class);
 
-        assertThat(country.getId(), is(2));
-        assertThat(country.getName(), is("Russia"));
+
+        assertThat(country.getId()).isEqualTo(2);
+        assertThat(country.getName()).isEqualTo("Russia");
     }
 
     @Test
@@ -64,10 +64,12 @@ class EntityJsonDeserializerTest {
         when(entityManager.find(Country.class, 3)).thenReturn(germany);
         ObjectMapper mapper = objectMapper(entityManager);
 
+
         String json = "{\"countries\": [23, 3]}";
         CountryList model = mapper.readValue(json, CountryList.class);
 
-        assertEquals(model.getCountries(), Arrays.asList(russia, germany));
+
+        assertThat(model.getCountries()).containsExactlyInAnyOrder(russia, germany);
     }
 
     @Test
@@ -80,10 +82,12 @@ class EntityJsonDeserializerTest {
         when(entityManager.find(Country.class, 3)).thenReturn(germany);
         ObjectMapper mapper = objectMapper(entityManager);
 
+
         String json = "{\"countries\": [23, 3]}";
         CountryArray model = mapper.readValue(json, CountryArray.class);
 
-        assertArrayEquals(new Country[] {russia, germany}, model.getCountries());
+
+        assertThat(model.getCountries()).containsExactlyInAnyOrder(russia, germany);
     }
 
     private EntityManager mockEntityManager() {

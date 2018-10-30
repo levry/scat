@@ -22,8 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author levry
@@ -63,10 +62,10 @@ class AddressWriterTest {
         addressWriter.put(input);
 
         City city = cityRepository.findAll().iterator().next();
-        assertThat(city, notNullValue());
-        assertThat(city.getName(), equalTo("Moscow"));
-        assertThat(city.getCountry().getName(), equalTo("Russia"));
-        assertThat(city.getRegion().getName(), equalTo("Central"));
+        assertThat(city).isNotNull();
+        assertThat(city.getName()).isEqualTo("Moscow");
+        assertThat(city.getCountry().getName()).isEqualTo("Russia");
+        assertThat(city.getRegion().getName()).isEqualTo("Central");
     }
 
     @Transactional
@@ -78,10 +77,10 @@ class AddressWriterTest {
         addressWriter.put(input);
 
         City city = cityRepository.findAll().iterator().next();
-        assertThat(city, notNullValue());
-        assertThat(city.getName(), equalTo("Moscow"));
-        assertThat(city.getCountry().getName(), equalTo("Russia"));
-        assertThat(city.getRegion(), nullValue());
+        assertThat(city).isNotNull();
+        assertThat(city.getName()).isEqualTo("Moscow");
+        assertThat(city.getCountry().getName()).isEqualTo("Russia");
+        assertThat(city.getRegion()).isNull();
     }
 
     @Transactional
@@ -94,9 +93,9 @@ class AddressWriterTest {
 
         City city = cityRepository.findAll().iterator().next();
 
-        assertThat(city, notNullValue());
-        assertThat(city.getCountry(), is(country));
-        assertThat(countryRepository.count(), is(1L));
+        assertThat(city).isNotNull();
+        assertThat(city.getCountry()).isEqualTo(country);
+        assertThat(countryRepository.count()).isEqualTo(1L);
     }
 
     @Transactional
@@ -110,10 +109,10 @@ class AddressWriterTest {
 
         City city = cityRepository.findAll().iterator().next();
 
-        assertThat(city, notNullValue());
-        assertThat(city.getName(), is("Montreal"));
-        assertThat(city.getRegion(), is(region));
-        assertThat(regionRepository.count(), is(1L));
+        assertThat(city).isNotNull();
+        assertThat(city.getName()).isEqualTo("Montreal");
+        assertThat(city.getRegion()).isEqualTo(region);
+        assertThat(regionRepository.count()).isEqualTo(1L);
     }
 
     @Transactional
@@ -124,8 +123,8 @@ class AddressWriterTest {
         Collection<Address> input = singletonList(address("France", null, "Paris"));
         addressWriter.put(input);
 
-        assertThat("Country not created if exists", countryRepository.count(), is(1L));
-        assertThat("City not created if exists", cityRepository.count(), is(1L));
+        assertThat(countryRepository.count()).describedAs("Country not created if exists").isEqualTo(1L);
+        assertThat(cityRepository.count()).describedAs("City not created if exists").isEqualTo(1L);
     }
 
     @Transactional
@@ -136,7 +135,7 @@ class AddressWriterTest {
         Collection<Address> input = singletonList(address("China", null, "BEIJING"));
         addressWriter.put(input);
 
-        assertThat("City not created if exists similar name", cityRepository.count(), is(1L));
+        assertThat(cityRepository.count()).describedAs("City not created if exists similar name").isEqualTo(1L);
     }
 
     @Transactional
@@ -147,7 +146,7 @@ class AddressWriterTest {
         Collection<Address> input = singletonList(address("CHINA", null, "BEIJING"));
         addressWriter.put(input);
 
-        assertThat("Country not created if exists similar name", countryRepository.count(), is(1L));
+        assertThat(countryRepository.count()).describedAs("Country not created if exists similar name").isEqualTo(1L);
     }
 
     @Transactional
@@ -161,9 +160,9 @@ class AddressWriterTest {
 
         addressWriter.put(input);
 
-        assertThat(countryRepository.count(), is(2L));
-        assertThat(regionRepository.count(), is(2L));
-        assertThat(cityRepository.count(), is(3L));
+        assertThat(countryRepository.count()).isEqualTo(2L);
+        assertThat(regionRepository.count()).isEqualTo(2L);
+        assertThat(cityRepository.count()).isEqualTo(3L);
     }
 
     private Address address(String country, String region, String city) {

@@ -16,9 +16,7 @@ import scat.repo.SchoolRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static scat.web.search.SchoolSearch.SchoolCriteria;
 
 /**
@@ -58,8 +56,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -75,8 +72,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -92,8 +88,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -109,8 +104,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -127,8 +121,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -146,8 +139,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -163,8 +155,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -181,8 +172,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(school));
+        assertThat(schools).containsExactlyInAnyOrder(school);
     }
 
     @Transactional
@@ -199,8 +189,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(urfu));
+        assertThat(schools).containsExactlyInAnyOrder(urfu);
     }
 
     @Transactional
@@ -217,8 +206,7 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(school));
+        assertThat(schools).containsExactlyInAnyOrder(school);
     }
 
     @Transactional
@@ -235,7 +223,6 @@ class SchoolSearchTest {
         List<School> schools = search.findBy(criteria);
 
 
-        assertThat(schools.size(), is(1));
-        assertThat(schools, hasItems(school));
+        assertThat(schools).containsExactlyInAnyOrder(school);
     }
 }

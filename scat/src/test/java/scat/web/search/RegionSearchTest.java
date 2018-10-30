@@ -16,9 +16,7 @@ import scat.repo.RegionRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static scat.web.search.RegionSearch.RegionCriteria;
 
 /**
@@ -59,8 +57,7 @@ class RegionSearchTest {
         criteria.setName("u");
         List<Region> regions = search.findBy(criteria);
 
-        assertThat(regions.size(), is(1));
-        assertThat(regions, hasItems(ural));
+        assertThat(regions).containsExactlyInAnyOrder(ural);
     }
 
     @Transactional
@@ -80,8 +77,7 @@ class RegionSearchTest {
         List<Region> regions = search.findBy(params);
 
 
-        assertThat(regions.size(), is(1));
-        assertThat(regions, hasItems(bayern));
+        assertThat(regions).containsExactlyInAnyOrder(bayern);
     }
 
     @Transactional
@@ -92,12 +88,13 @@ class RegionSearchTest {
         entities.region("Syberia", russia);
         entities.region("Crimea", russia);
 
+
         RegionCriteria params = new RegionCriteria();
         params.setId(ural.getId());
         List<Region> regions = search.findBy(params);
 
-        assertThat(regions.size(), is(1));
-        assertThat(regions, hasItems(ural));
+
+        assertThat(regions).containsExactlyInAnyOrder(ural);
     }
 
     @Transactional
@@ -113,7 +110,7 @@ class RegionSearchTest {
         params.setCountry(germany.getId());
         List<Region> regions = search.findBy(params);
 
-        assertThat(regions.size(), is(1));
-        assertThat(regions, hasItems(bayern));
+
+        assertThat(regions).containsExactlyInAnyOrder(bayern);
     }
 }

@@ -15,9 +15,7 @@ import scat.repo.CityRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static scat.web.search.CitySearch.CityCriteria;
 
 /**
@@ -56,8 +54,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(1));
-        assertThat(cities, hasItems(city));
+        assertThat(cities).containsExactly(city);
     }
 
     @Transactional
@@ -72,8 +69,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(1));
-        assertThat(cities, hasItems(city));
+        assertThat(cities).containsExactly(city);
     }
 
     @Transactional
@@ -89,8 +85,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(2));
-        assertThat(cities, hasItems(ekat, moscow));
+        assertThat(cities).containsExactlyInAnyOrder(ekat, moscow);
     }
 
     @Transactional
@@ -105,8 +100,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(1));
-        assertThat(cities, hasItems(berlin));
+        assertThat(cities).containsExactly(berlin);
     }
 
     @Transactional
@@ -120,8 +114,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(1));
-        assertThat(cities, hasItems(ekat));
+        assertThat(cities).containsExactly(ekat);
     }
 
     @Transactional
@@ -135,8 +128,7 @@ class CitySearchTest {
 
         List<City> cities = search.findBy(criteria);
 
-        assertThat(cities.size(), is(1));
-        assertThat(cities, hasItems(ekat));
+        assertThat(cities).containsExactly(ekat);
     }
 
 }

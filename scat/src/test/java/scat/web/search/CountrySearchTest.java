@@ -15,9 +15,7 @@ import scat.repo.CountryRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author levry
@@ -56,8 +54,7 @@ class CountrySearchTest {
 
         List<Country> countries = search.findBy(country);
 
-        assertThat(countries.size(), is(2));
-        assertThat(countries, hasItems(russia, rumania));
+        assertThat(countries).containsExactlyInAnyOrder(russia, rumania);
     }
 
     @Transactional
@@ -72,7 +69,6 @@ class CountrySearchTest {
 
         List<Country> countries = search.findBy(country);
 
-        assertThat(countries.size(), is(1));
-        assertThat(countries, hasItems(russia));
+        assertThat(countries).containsExactlyInAnyOrder(russia);
     }
 }

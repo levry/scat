@@ -15,9 +15,7 @@ import scat.repo.SchoolTypeRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author levry
@@ -55,8 +53,8 @@ class SchoolTypeSearchTest {
         type.setName("a");
         List<SchoolType> types = search.findBy(type);
 
-        assertThat(types.size(), is(1));
-        assertThat(types, hasItems(academy));
+
+        assertThat(types).containsExactlyInAnyOrder(academy);
     }
 
     @Transactional
@@ -70,7 +68,6 @@ class SchoolTypeSearchTest {
         type.setId(academy.getId());
         List<SchoolType> types = search.findBy(type);
 
-        assertThat(types.size(), is(1));
-        assertThat(types, hasItems(academy));
+        assertThat(types).containsExactlyInAnyOrder(academy);
     }
 }

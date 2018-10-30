@@ -19,8 +19,7 @@ import scat.repo.SchoolTypeRepository;
 import javax.persistence.EntityManager;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author levry
@@ -73,12 +72,13 @@ class SchoolWriterTest {
 
 
         School school = schoolRepository.findAll().iterator().next();
-        assertThat(school.getName(), is("Tomsk University"));
-        assertThat(school.getNumber(), is(21));
-        assertThat(school.getType().getName(), is("University"));
-        assertThat(school.getCity(), is(city));
-        assertThat(result.getSchoolsAdded(), is(1L));
-        assertThat(result.getTypesAdded(), is(1L));
+
+        assertThat(school.getName()).isEqualTo("Tomsk University");
+        assertThat(school.getNumber()).isEqualTo(21);
+        assertThat(school.getType().getName()).isEqualTo("University");
+        assertThat(school.getCity()).isEqualTo(city);
+        assertThat(result.getSchoolsAdded()).isEqualTo(1L);
+        assertThat(result.getTypesAdded()).isEqualTo(1L);
     }
 
     @Transactional
@@ -101,9 +101,9 @@ class SchoolWriterTest {
 
 
         School school = schoolRepository.findAll().iterator().next();
-        assertThat("Schould be find exists city", school.getCity(), is(city));
-        assertThat("City not created if exists similar", cityRepository.count(), is(1L));
-        assertThat("Result should be shools-added", result.getSchoolsAdded(), is(1L));
+        assertThat(school.getCity()).describedAs("Schould be find exists city").isEqualTo(city);
+        assertThat(cityRepository.count()).describedAs("City not created if exists similar").isEqualTo(1L);
+        assertThat(result.getSchoolsAdded()).describedAs("Result should be shools-added").isEqualTo(1L);
     }
 
     @Transactional
@@ -128,9 +128,9 @@ class SchoolWriterTest {
 
 
         School school = schoolRepository.findAll().iterator().next();
-        assertThat(school.getType(), is(schoolType));
-        assertThat("Type not created if exists similar", schoolTypeRepository.count(), is(1L));
-        assertThat("Result should be shools-added", result.getTypesAdded(), is(0L));
+        assertThat(school.getType()).isEqualTo(schoolType);
+        assertThat(schoolTypeRepository.count()).describedAs("Type not created if exists similar").isEqualTo(1L);
+        assertThat(result.getTypesAdded()).describedAs("Result should be shools-added").isEqualTo(0L);
     }
 
     @Transactional
@@ -150,8 +150,8 @@ class SchoolWriterTest {
 
         SchoolWriteResult result = schoolWriter.put(input);
 
-        assertThat(schoolRepository.count(), is(0L));
-        assertThat("School should not created for missed cities", result.getCitiesMissed(), is(1L));
+        assertThat(schoolRepository.count()).isEqualTo(0L);
+        assertThat(result.getCitiesMissed()).describedAs("School should not created for missed cities").isEqualTo(1L);
     }
 
     private static SchoolDataBuilder data() {

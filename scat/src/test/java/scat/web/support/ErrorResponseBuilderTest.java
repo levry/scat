@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,12 +31,12 @@ class ErrorResponseBuilderTest {
         ErrorResponseBuilder builder = new ErrorResponseBuilder(stubContext());
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
-        assertThat(errors, notNullValue());
-        assertThat(errors.size(), is(1));
+
+        assertThat(errors).hasSize(1);
 
         Map error = errors.get(0);
-        assertThat(error.get("message"), is("This is error message"));
-        assertThat(error.get("code"), is("test"));
+        assertThat(error).contains(entry("message", "This is error message"));
+        assertThat(error).contains(entry("code", "test"));
     }
 
     @Test
@@ -50,12 +49,11 @@ class ErrorResponseBuilderTest {
 
         List<Map<String, Object>> errors = builder.collectErrors(bindingResult);
 
-        assertThat(errors, notNullValue());
-        assertThat(errors.size(), is(1));
+        assertThat(errors).hasSize(1);
 
         Map error = errors.get(0);
-        assertThat(error.get("message"), is("Test message"));
-        assertThat(error.get("field"), is("testField"));
+        assertThat(error).contains(entry("message", "Test message"));
+        assertThat(error).contains(entry("field", "testField"));
     }
 
     private BindingResult bindingResult(ObjectError... errors) {
