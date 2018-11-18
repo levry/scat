@@ -166,11 +166,7 @@ class AddressWriterTest {
     }
 
     private Address address(String country, String region, String city) {
-        Address address = new Address();
-        address.setCountry(country);
-        address.setRegion(region);
-        address.setCity(city);
-        return address;
+        return new Address(country, region, city);
     }
 
 }

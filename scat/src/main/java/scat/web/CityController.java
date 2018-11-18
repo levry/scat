@@ -1,5 +1,6 @@
 package scat.web;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.City;
@@ -15,14 +16,11 @@ import static scat.web.search.CitySearch.*;
  * @author levry
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/cities")
 public class CityController {
 
     private final CityRepository repository;
-
-    public CityController(CityRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping
     public Iterable<City> index(@ModelAttribute CityCriteria criteria) {

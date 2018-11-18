@@ -1,5 +1,6 @@
 package scat.batch.school;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import scat.data.City;
 import scat.data.School;
@@ -19,19 +20,12 @@ import java.util.stream.Collectors;
  * @author levry
  */
 @Component
+@AllArgsConstructor
 public class SchoolWriter {
 
     private final SchoolTypeRepository schoolTypes;
     private final CityRepository cityRepository;
     private final SchoolRepository schoolRepository;
-
-    public SchoolWriter(SchoolTypeRepository schoolTypes,
-                        CityRepository cityRepository,
-                        SchoolRepository schoolRepository) {
-        this.schoolTypes = schoolTypes;
-        this.cityRepository = cityRepository;
-        this.schoolRepository = schoolRepository;
-    }
 
     public SchoolWriteResult put(Iterable<SchoolData> input) {
 

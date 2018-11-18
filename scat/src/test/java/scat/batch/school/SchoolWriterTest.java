@@ -57,14 +57,14 @@ class SchoolWriterTest {
 
         City city = entities.city("Tomsk", "Siberia", "Russia");
 
-        Iterable<SchoolData> input = singletonList(data()
+        Iterable<SchoolData> input = singletonList(SchoolData.builder()
                 .country("Russia")
                 .region("Siberia")
                 .city("Tomsk")
                 .type("University")
                 .name("Tomsk University")
                 .number(21)
-                .data
+                .build()
         );
 
 
@@ -86,14 +86,14 @@ class SchoolWriterTest {
     void should_be_ignore_case_names_in_city() {
         City city = entities.city("Tomsk", "Siberia", "Russia");
 
-        Iterable<SchoolData> input = singletonList(data()
+        Iterable<SchoolData> input = singletonList(SchoolData.builder()
                 .country("RUSSIA")
                 .region("SIBERIA")
                 .city("TOMSK")
                 .type("University")
                 .name("Tomsk University")
                 .number(21)
-                .data
+                .build()
         );
 
 
@@ -113,14 +113,14 @@ class SchoolWriterTest {
         entities.city("Tomsk", "Siberia", "Russia");
         SchoolType schoolType = entities.schoolType("University");
 
-        Iterable<SchoolData> input = singletonList(data()
+        Iterable<SchoolData> input = singletonList(SchoolData.builder()
                 .country("Russia")
                 .region("Siberia")
                 .city("Tomsk")
                 .type("UNIVERSITY")
                 .name("Tomsk University")
                 .number(21)
-                .data
+                .build()
         );
 
 
@@ -137,14 +137,14 @@ class SchoolWriterTest {
     @Test
     void should_not_create_school_if_city_not_found() {
 
-        Iterable<SchoolData> input = singletonList(data()
+        Iterable<SchoolData> input = singletonList(SchoolData.builder()
                 .country("Russia")
                 .region("Siberia")
                 .city("Tomsk")
                 .type("University")
                 .name("Tomsk University")
                 .number(21)
-                .data
+                .build()
         );
 
 
@@ -154,45 +154,4 @@ class SchoolWriterTest {
         assertThat(result.getCitiesMissed()).describedAs("School should not created for missed cities").isEqualTo(1L);
     }
 
-    private static SchoolDataBuilder data() {
-        return new SchoolDataBuilder();
-    }
-
-    private static class SchoolDataBuilder {
-        private final SchoolData data;
-
-        private SchoolDataBuilder() {
-            this.data = new SchoolData();
-        }
-
-        SchoolDataBuilder country(String name) {
-            data.setCountry(name);
-            return this;
-        }
-
-        SchoolDataBuilder region(String name) {
-            data.setRegion(name);
-            return this;
-        }
-
-        SchoolDataBuilder city(String name) {
-            data.setCity(name);
-            return this;
-        }
-
-        SchoolDataBuilder type(String name) {
-            data.setType(name);
-            return this;
-        }
-
-        SchoolDataBuilder name(String name) {
-            data.setName(name);
-            return this;
-        }
-
-        SchoolDataBuilder number(Integer number) {
-            data.setNumber(number);
-            return this;
-        }
-    }
 }

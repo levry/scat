@@ -1,5 +1,6 @@
 package scat.web;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.Region;
@@ -15,14 +16,11 @@ import static scat.web.search.RegionSearch.*;
  * @author levry
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("regions")
 public class RegionController {
 
     private final RegionRepository repository;
-
-    public RegionController(RegionRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping
     public Iterable<Region> index(@ModelAttribute RegionCriteria criteria) {

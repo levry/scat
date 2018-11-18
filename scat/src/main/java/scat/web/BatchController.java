@@ -1,5 +1,6 @@
 package scat.web;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +17,12 @@ import java.util.List;
  * @author levry
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/batch")
 public class BatchController {
 
     private final AddressWriter addressWriter;
     private final SchoolWriter schoolWriter;
-
-    public BatchController(AddressWriter addressWriter, SchoolWriter schoolWriter) {
-        this.addressWriter = addressWriter;
-        this.schoolWriter = schoolWriter;
-    }
 
     @PostMapping("/address")
     public void address(@RequestBody List<Address> input) {

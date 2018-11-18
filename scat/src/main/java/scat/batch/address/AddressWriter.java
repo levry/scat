@@ -1,5 +1,6 @@
 package scat.batch.address;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import scat.data.City;
 import scat.data.Country;
@@ -16,19 +17,12 @@ import java.util.function.Function;
  * @author levry
  */
 @Component
+@AllArgsConstructor
 public class AddressWriter {
 
-    private CountryRepository countryRepository;
-    private RegionRepository regionRepository;
-    private CityRepository cityRepository;
-
-    public AddressWriter(CountryRepository countryRepository,
-                         RegionRepository regionRepository,
-                         CityRepository cityRepository) {
-        this.countryRepository = countryRepository;
-        this.regionRepository = regionRepository;
-        this.cityRepository = cityRepository;
-    }
+    private final CountryRepository countryRepository;
+    private final RegionRepository regionRepository;
+    private final CityRepository cityRepository;
 
     public void put(Collection<Address> input) {
 

@@ -1,5 +1,6 @@
 package scat.web;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.Country;
@@ -13,14 +14,11 @@ import javax.validation.Valid;
  * @author levry
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("countries")
 public class CountryController {
 
     private final CountryRepository repository;
-
-    public CountryController(CountryRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping
     public Iterable<Country> index(@ModelAttribute CountryModel criteria) {

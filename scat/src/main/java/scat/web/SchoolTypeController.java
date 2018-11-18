@@ -1,5 +1,6 @@
 package scat.web;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.SchoolType;
@@ -13,14 +14,11 @@ import javax.validation.Valid;
  * @author levry
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/school_types")
 public class SchoolTypeController {
 
     private final SchoolTypeRepository repository;
-
-    public SchoolTypeController(SchoolTypeRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping
     public Iterable<SchoolType> index(@ModelAttribute SchoolTypeModel criteria) {

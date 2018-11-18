@@ -5,9 +5,9 @@ import lombok.*;
 /**
  * @author levry
  */
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     private String country;
