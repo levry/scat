@@ -1,23 +1,11 @@
-buildscript {
-    ext.kotlin_version = '1.2.31'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
 plugins {
     id 'java'
+    id "org.jetbrains.kotlin.jvm" version "1.4.21"
 }
 
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
-
-apply plugin: 'kotlin'
 
 repositories {
     mavenCentral()
@@ -31,7 +19,7 @@ ext {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"
 
     testRuntime "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
