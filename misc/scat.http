@@ -1,0 +1,136 @@
+### get countries
+GET http://localhost:8080/countries
+
+### get country by id
+GET http://localhost:8080/countries/32
+
+### add country
+POST http://localhost:8080/countries
+Content-Type: application/json
+
+{
+  "name": "probe"
+}
+
+### edit country
+PUT http://localhost:8080/countries/32
+Content-Type: application/json
+
+{
+  "name": "probe 2"
+}
+
+### delete country
+DELETE http://localhost:8080/countries/32
+
+### get regions
+GET http://localhost:8080/regions
+
+### get region by id
+GET http://localhost:8080/regions/176
+
+### add region
+POST http://localhost:8080/regions
+Content-Type: application/json
+
+{
+  "name": "probe region",
+  "country": 2
+}
+
+### edit region
+PUT http://localhost:8080/regions/176
+Content-Type: application/json
+
+{
+  "name": "probe region 2",
+  "country": 3
+}
+
+### delete region
+DELETE http://localhost:8080/regions/176
+
+### get cities
+GET http://localhost:8080/cities
+
+### get city by id
+GET http://localhost:8080/cities/1
+
+### add city
+POST http://localhost:8080/cities
+Content-Type: application/json
+
+{
+  "name": "probe city 2",
+  "region": 1,
+  "country": 6
+}
+
+### edit city
+PUT http://localhost:8080/cities/1244
+Content-Type: application/json
+
+{
+  "name": "probe city 2",
+  "region": 6,
+  "country": 1
+}
+
+### delete city
+DELETE http://localhost:8080/cities/1244
+
+### get types
+GET http://localhost:8080/school_types
+
+### get type by id
+GET http://localhost:8080/school_types/1
+
+### add type
+POST http://localhost:8080/school_types
+Content-Type: application/json
+
+{
+  "name": "probe type"
+}
+
+### edit type
+PUT http://localhost:8080/school_types/39
+Content-Type: application/json
+
+{
+  "name": "probe"
+}
+
+### delete type
+DELETE http://localhost:8080/school_types/39
+
+### get schools
+GET http://localhost:8080/schools
+
+### get school by id
+GET http://localhost:8080/schools/1
+
+### add school
+POST http://localhost:8080/schools
+Content-Type: application/json
+
+{
+  "name": "probe 1",
+  "number": "1",
+  "type": 1,
+  "city": 1
+}
+
+### edit school
+PUT http://localhost:8080/schools/6209
+Content-Type: application/json
+
+{
+  "name": "probe 1",
+  "number": "2",
+  "type": 1,
+  "city": 1
+}
+
+### delete school
+DELETE http://localhost:8080/schools/6209
