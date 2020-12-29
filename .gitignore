@@ -1,6 +1,10 @@
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+/scat/out
+/scat-test/out
+/out
+.data
 
 ### STS ###
 .apt_generated
