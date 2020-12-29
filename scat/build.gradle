@@ -1,6 +1,5 @@
 plugins {
 	id "java"
-	id "eclipse"
 	id "jacoco"
 	id "org.sonarqube" version "2.6.1"
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -9,6 +8,12 @@ plugins {
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -19,6 +24,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	
 	runtime 'com.h2database:h2'
 
@@ -27,6 +33,9 @@ dependencies {
 	}
 	testCompile 'org.junit.jupiter:junit-jupiter-api'
 	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 test {
