@@ -1,11 +1,11 @@
 package scat.web;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.Country;
-import scat.repo.CountryRepository;
-import scat.web.model.CountryModel;
+import scat.domain.service.CountryService;
+import scat.domain.service.dto.CountryInput;
 
 import javax.validation.Valid;
 
@@ -13,39 +13,35 @@ import javax.validation.Valid;
  * @author levry
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("countries")
 public class CountryController {
 
-    private final CountryRepository repository;
+    private final CountryService service;
 
     @GetMapping
-    public Iterable<Country> index(@ModelAttribute CountryModel criteria) {
-        Country example = criteria.createCountry();
-        return repository.findBy(example);
+    public Iterable<Country> index(@ModelAttribute CountryInput criteria) {
+        return service.findBy(criteria);
     }
 
     @GetMapping("/{id}")
     public Country get(@PathVariable Integer id) {
-        return repository.findOne(id);
+        return service.findOne(id);
     }
 
     @PostMapping
-    public Country save(@Valid @RequestBody CountryModel data) {
-        Country country = data.createCountry();
-        return repository.save(country);
+    public Country save(@Valid @RequestBody CountryInput data) {
+        return service.save(data);
     }
 
     @PutMapping("/{id}")
-    public Country update(@PathVariable Integer id, @Valid @RequestBody CountryModel data) {
-        Country country = repository.getOne(id);
-        country.setName(data.getName());
-        return repository.save(country);
+    public Country update(@PathVariable Integer id, @Valid @RequestBody CountryInput data) {
+        return service.update(id, data);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        service.remove(id);
     }
 }

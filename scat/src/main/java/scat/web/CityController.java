@@ -1,58 +1,50 @@
 package scat.web;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.City;
-import scat.repo.CityRepository;
-import scat.web.model.CityModel;
+import scat.domain.service.CityService;
+import scat.domain.service.dto.CityInput;
 
 import javax.validation.Valid;
 
-import static scat.web.search.CitySearch.*;
+import static scat.web.search.CitySearch.CityCriteria;
 
 /**
  * @author levry
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/cities")
 public class CityController {
 
-    private final CityRepository repository;
+    private final CityService service;
 
     @GetMapping
     public Iterable<City> index(@ModelAttribute CityCriteria criteria) {
-        return repository.findBy(criteria);
+        return service.findBy(criteria);
     }
 
     @GetMapping("/{id}")
     public City get(@PathVariable Long id) {
-        return repository.findOne(id);
+        return service.findOne(id);
     }
 
     @PostMapping
-    public City save(@Valid @RequestBody CityModel data) {
-        City city = new City();
-        city.setName(data.getName());
-        city.setRegion(data.getRegion());
-        city.setCountry(data.getCountry());
-        return repository.save(city);
+    public City save(@Valid @RequestBody CityInput data) {
+        return service.save(data);
     }
 
     @PutMapping("/{id}")
-    public City update(@PathVariable Long id, @Valid @RequestBody CityModel data) {
-        City city = repository.getOne(id);
-        city.setName(data.getName());
-        city.setRegion(data.getRegion());
-        city.setCountry(data.getCountry());
-        return repository.save(city);
+    public City update(@PathVariable Long id, @Valid @RequestBody CityInput data) {
+        return service.update(id, data);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.remove(id);
     }
 
 }

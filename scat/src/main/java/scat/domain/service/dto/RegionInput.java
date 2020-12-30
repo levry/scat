@@ -1,24 +1,22 @@
-package scat.web.model;
+package scat.domain.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import scat.data.Country;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author levry
  */
 @Getter
 @Setter
-public class CountryModel {
+public class RegionInput {
 
     @NotBlank
     private String name;
+    @NotNull
+    private Country country;
 
-    public Country createCountry() {
-        Country country = new Country();
-        country.setName(name);
-        return country;
-    }
 }

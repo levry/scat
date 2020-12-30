@@ -1,4 +1,4 @@
-package scat.web.model;
+package scat.domain.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class SchoolTypeModel {
+public class SchoolTypeInput {
 
     @NotBlank
     private String name;

@@ -1,11 +1,11 @@
 package scat.web;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import scat.data.SchoolType;
-import scat.repo.SchoolTypeRepository;
-import scat.web.model.SchoolTypeModel;
+import scat.domain.service.SchoolTypeService;
+import scat.domain.service.dto.SchoolTypeInput;
 
 import javax.validation.Valid;
 
@@ -13,40 +13,36 @@ import javax.validation.Valid;
  * @author levry
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/school_types")
 public class SchoolTypeController {
 
-    private final SchoolTypeRepository repository;
+    private final SchoolTypeService service;
 
     @GetMapping
-    public Iterable<SchoolType> index(@ModelAttribute SchoolTypeModel criteria) {
-        SchoolType example = criteria.createSchoolType();
-        return repository.findBy(example);
+    public Iterable<SchoolType> index(@ModelAttribute SchoolTypeInput criteria) {
+        return service.findBy(criteria);
     }
 
     @GetMapping("/{id}")
     public SchoolType get(@PathVariable Integer id) {
-        return repository.findOne(id);
+        return service.findOne(id);
     }
 
     @PostMapping
-    public SchoolType save(@Valid @RequestBody SchoolTypeModel data) {
-        SchoolType type = data.createSchoolType();
-        return repository.save(type);
+    public SchoolType save(@Valid @RequestBody SchoolTypeInput data) {
+        return service.save(data);
     }
 
     @PutMapping("/{id}")
-    public SchoolType update(@PathVariable Integer id, @Valid @RequestBody SchoolTypeModel data) {
-        SchoolType schoolType = repository.getOne(id);
-        schoolType.setName(data.getName());
-        return repository.save(schoolType);
+    public SchoolType update(@PathVariable Integer id, @Valid @RequestBody SchoolTypeInput data) {
+        return service.update(id, data);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        service.remove(id);
     }
 
 }

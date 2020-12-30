@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import scat.data.Country;
-import scat.web.model.RegionModel;
+import scat.domain.service.dto.RegionInput;
 import scat.web.support.json.EntityJsonModule;
 
 import javax.persistence.EntityManager;
@@ -33,7 +33,7 @@ class EntityJsonDeserializerTest {
 
 
         String json = "{\"name\": \"Ural\", \"country\": 23}";
-        RegionModel model = mapper.readValue(json, RegionModel.class);
+        RegionInput model = mapper.readValue(json, RegionInput.class);
 
 
         assertThat(model.getName()).isEqualTo("Ural");
