@@ -1,7 +1,7 @@
 package scat.web.search;
 
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 import scat.data.School;
 import scat.repo.SchoolRepository;
 import scat.repo.support.SpecificationBuilder;
@@ -11,14 +11,10 @@ import java.util.List;
 /**
  * @author levry
  */
-@Component
+@RequiredArgsConstructor
 public class SchoolSearch {
 
     private final SchoolRepository repository;
-
-    public SchoolSearch(SchoolRepository repository) {
-        this.repository = repository;
-    }
 
     public List<School> findBy(SchoolCriteria criteria) {
 

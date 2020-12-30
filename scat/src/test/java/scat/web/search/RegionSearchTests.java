@@ -4,16 +4,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.Country;
 import scat.data.Region;
 import scat.repo.RegionRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,25 +22,20 @@ import static scat.web.search.RegionSearch.RegionCriteria;
 /**
  * @author levry
  */
+@DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class RegionSearchTest {
-
-    @Autowired
-    private EntityManager entityManager;
+class RegionSearchTests {
 
     @Autowired
     private RegionRepository repository;
 
+    @Autowired
     private Entities entities;
-
-    private RegionSearch search;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
-        search = new RegionSearch(repository);
+        entities.cleanUp();
     }
 
     @Transactional
@@ -55,7 +50,7 @@ class RegionSearchTest {
 
         RegionCriteria criteria = new RegionCriteria();
         criteria.setName("u");
-        List<Region> regions = search.findBy(criteria);
+        List<Region> regions = repository.findBy(criteria);
 
         assertThat(regions).containsExactlyInAnyOrder(ural);
     }
@@ -74,7 +69,7 @@ class RegionSearchTest {
         RegionCriteria params = new RegionCriteria();
         params.setCountry_name("g");
 
-        List<Region> regions = search.findBy(params);
+        List<Region> regions = repository.findBy(params);
 
 
         assertThat(regions).containsExactlyInAnyOrder(bayern);
@@ -91,7 +86,7 @@ class RegionSearchTest {
 
         RegionCriteria params = new RegionCriteria();
         params.setId(ural.getId());
-        List<Region> regions = search.findBy(params);
+        List<Region> regions = repository.findBy(params);
 
 
         assertThat(regions).containsExactlyInAnyOrder(ural);
@@ -108,7 +103,7 @@ class RegionSearchTest {
 
         RegionCriteria params = new RegionCriteria();
         params.setCountry(germany.getId());
-        List<Region> regions = search.findBy(params);
+        List<Region> regions = repository.findBy(params);
 
 
         assertThat(regions).containsExactlyInAnyOrder(bayern);

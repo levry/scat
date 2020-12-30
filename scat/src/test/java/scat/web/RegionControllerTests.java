@@ -6,24 +6,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.Country;
 import scat.data.Region;
-import scat.repo.RegionRepository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 import static java.lang.String.format;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -33,36 +25,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class RegionControllerTest {
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
+class RegionControllerTests {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private RegionRepository regionRepository;
-
     @Autowired
-    private EntityManager entityManager;
-
     private Entities entities;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
+        entities.cleanUp();
     }
 
     @Test
-    @Transactional
     void get_region() throws Exception {
-
         Country country = entities.country("Russia");
         Region region = entities.region("Sverdlovskaya obl", country);
-        when(regionRepository.findOne(eq(region.getId()))).thenReturn(region);
 
-        mvc.perform(get("/regions/{id}", region.getId())).andDo(print())
+        mvc.perform(get("/regions/{id}", region.getId()))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(region.getId()))
                 .andExpect(jsonPath("$.name").value("Sverdlovskaya obl"))
@@ -72,24 +58,15 @@ class RegionControllerTest {
 
     @Test
     void should_be_404_if_not_found_region() throws Exception {
-        when(regionRepository.findOne(eq(196))).thenThrow(EntityNotFoundException.class);
-
-        mvc.perform(get("/regions/{id}", 196)).andDo(print())
+        mvc.perform(get("/regions/{id}", 196))
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Transactional
     void post_region() throws Exception {
 
         Country country = entities.country("Russia");
-
-        when(regionRepository.save(any(Region.class))).then(invocation -> {
-            Region region = invocation.getArgument(0);
-            region.setId(2);
-            return region;
-        });
-
 
         String json = format("{ \"name\": \"Test\", \"country\": %1$s}", country.getId());
         RequestBuilder dataPost = post("/regions")
@@ -98,7 +75,7 @@ class RegionControllerTest {
 
         mvc.perform(dataPost).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Test"))
                 .andExpect(jsonPath("$.country.id").value(country.getId()))
                 .andExpect(jsonPath("$.country.name").value("Russia"));
@@ -110,19 +87,15 @@ class RegionControllerTest {
                 .contentType(APPLICATION_JSON_UTF8)
                 .content("{ \"name\": \"Test\", \"country\": 66}");
 
-        mvc.perform(dataPost).andDo(print())
+        mvc.perform(dataPost)
+                .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @Transactional
     void update_name_of_region() throws Exception {
         Country country = entities.country("Russia");
         Region region = entities.region("Test", country);
-
-        when(regionRepository.save(any(Region.class))).thenReturn(region);
-        when(regionRepository.getOne(eq(region.getId()))).thenReturn(region);
-
 
         String json = String.format("{ \"name\": \"Test update\", \"country\": %d }", country.getId());
         RequestBuilder request = put("/regions/{id}", region.getId())
@@ -138,16 +111,11 @@ class RegionControllerTest {
     }
 
     @Test
-    @Transactional
     void update_country_of_region() throws Exception {
         Country russia = entities.country("Russia");
         Country france = entities.country("France");
 
         Region region = entities.region("Test", russia);
-
-        when(regionRepository.save(any(Region.class))).thenReturn(region);
-        when(regionRepository.getOne(eq(region.getId()))).thenReturn(region);
-
 
         String json = String.format("{ \"name\": \"Test\", \"country\": %d }", france.getId());
         RequestBuilder request = put("/regions/{id}", region.getId())
@@ -164,11 +132,12 @@ class RegionControllerTest {
 
     @Test
     void delete_region() throws Exception {
+        Country country = entities.country("Russia");
+        Region region = entities.region("Test", country);
 
-        mvc.perform(delete("/regions/{id}", 15)).andDo(print())
+        mvc.perform(delete("/regions/{id}", region.getId()))
+                .andDo(print())
                 .andExpect(status().isNoContent());
-
-        verify(regionRepository).deleteById(eq(15));
     }
 
 }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import scat.data.Country;
 import scat.repo.CountryRepository;
 import scat.web.model.CountryModel;
-import scat.web.search.CountrySearch;
 
 import javax.validation.Valid;
 
@@ -23,7 +22,7 @@ public class CountryController {
     @GetMapping
     public Iterable<Country> index(@ModelAttribute CountryModel criteria) {
         Country example = criteria.createCountry();
-        return new CountrySearch(repository).findBy(example);
+        return repository.findBy(example);
     }
 
     @GetMapping("/{id}")

@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.City;
 import scat.data.School;
 import scat.data.SchoolType;
@@ -16,24 +17,19 @@ import scat.repo.CityRepository;
 import scat.repo.SchoolRepository;
 import scat.repo.SchoolTypeRepository;
 
-import javax.persistence.EntityManager;
-
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author levry
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
-class SchoolWriterTest {
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
+class SchoolWriterTests {
 
     @Autowired
     private SchoolWriter schoolWriter;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private SchoolRepository schoolRepository;
@@ -44,11 +40,12 @@ class SchoolWriterTest {
     @Autowired
     private SchoolTypeRepository schoolTypeRepository;
 
+    @Autowired
     private Entities entities;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
+        entities.cleanUp();
     }
 
     @Transactional

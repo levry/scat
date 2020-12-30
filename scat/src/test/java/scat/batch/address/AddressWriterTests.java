@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.City;
 import scat.data.Country;
 import scat.data.Region;
@@ -16,7 +17,6 @@ import scat.repo.CityRepository;
 import scat.repo.CountryRepository;
 import scat.repo.RegionRepository;
 
-import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -27,13 +27,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author levry
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
-class AddressWriterTest {
-
-    @Autowired
-    private EntityManager entityManager;
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
+class AddressWriterTests {
 
     @Autowired
     private AddressWriter addressWriter;
@@ -47,11 +44,12 @@ class AddressWriterTest {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
     private Entities entities;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
+        entities.cleanUp();
     }
 
     @Transactional

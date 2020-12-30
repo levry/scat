@@ -4,16 +4,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.City;
 import scat.data.School;
 import scat.repo.SchoolRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,25 +22,20 @@ import static scat.web.search.SchoolSearch.SchoolCriteria;
 /**
  * @author levry
  */
+@DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class SchoolSearchTest {
-
-    @Autowired
-    private EntityManager entityManager;
+class SchoolSearchTests {
 
     @Autowired
     private SchoolRepository repository;
 
+    @Autowired
     private Entities entities;
-
-    private SchoolSearch search;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
-        search = new SchoolSearch(repository);
+        entities.cleanUp();
     }
 
     @Transactional
@@ -53,7 +48,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setName("U");
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -69,7 +64,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setId(urfu.getId());
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -85,7 +80,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setType_name("Uni");
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -101,7 +96,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setType(urfu.getType().getId());
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -118,7 +113,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setCity_name("Eka");
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -136,7 +131,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setCity(ekat.getId());
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -152,7 +147,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setNumber(432);
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -169,7 +164,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setRegion(moscow.getRegion().getId());
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(school);
@@ -186,7 +181,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setRegion_name("ural");
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(urfu);
@@ -203,7 +198,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setCountry(berlin.getCountry().getId());
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(school);
@@ -220,7 +215,7 @@ class SchoolSearchTest {
 
         SchoolCriteria criteria = new SchoolCriteria();
         criteria.setCountry_name("germany");
-        List<School> schools = search.findBy(criteria);
+        List<School> schools = repository.findBy(criteria);
 
 
         assertThat(schools).containsExactlyInAnyOrder(school);

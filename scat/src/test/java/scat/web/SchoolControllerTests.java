@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.City;
 import scat.data.School;
 import scat.data.SchoolType;
@@ -34,42 +36,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SchoolControllerTest {
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
+public class SchoolControllerTests {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private SchoolRepository repository;
-
     @Autowired
-    private EntityManager entityManager;
-
     private Entities entities;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
+        entities.cleanUp();
     }
 
     @Test
-    @Transactional
     void get_school() throws Exception {
         SchoolType schoolType = entities.schoolType("University");
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
 
-        School school = new School();
-        school.setId(2L);
-        school.setName("URFU");
-        school.setNumber(20);
-        school.setType(schoolType);
-        school.setCity(city);
-        when(repository.findOne(eq(2L))).thenReturn(school);
+        School school = entities.school("URFU", 20, "University", city);
 
-        mvc.perform(get("/schools/{id}", school.getId())).andDo(print())
+        mvc.perform(get("/schools/{id}", school.getId()))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(school.getId()))
                 .andExpect(jsonPath("$.name").value("URFU"))
@@ -82,24 +74,14 @@ public class SchoolControllerTest {
 
     @Test
     void should_be_404_if_not_found_school() throws Exception {
-        when(repository.findOne(eq(81L))).thenThrow(EntityNotFoundException.class);
-
         mvc.perform(get("/schools/{id}", 81)).andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Transactional
     void post_school() throws Exception {
         City city = entities.city("Ekaterinburg", "Ural", "Russia");
         SchoolType schoolType = entities.schoolType("University");
-
-        when(repository.save(any(School.class))).then(invocation -> {
-            School school = invocation.getArgument(0);
-            school.setId(2L);
-            return school;
-        });
-
 
         String json = format(
                 "{ \"name\": \"urfu\", \"number\": 5, \"city\": %1$s, \"type\": %2$s }",
@@ -110,9 +92,10 @@ public class SchoolControllerTest {
                 .content(json);
 
 
-        mvc.perform(dataPost).andDo(print())
+        mvc.perform(dataPost)
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2L))
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("urfu"))
                 .andExpect(jsonPath("$.number").value(5))
                 .andExpect(jsonPath("$.type.id").value(schoolType.getId()))
@@ -123,24 +106,13 @@ public class SchoolControllerTest {
 
 
     @Test
-    @Transactional
     void update_school() throws Exception {
         SchoolType colledge = entities.schoolType("Colledge");
-        City moscow = entities.city("Moscow", null, "Russia");
-
-        School school = new School();
-        school.setId(2L);
-        school.setName("UPI");
-        school.setCity(moscow);
-        school.setType(colledge);
-
-        when(repository.getOne(eq(2L))).thenReturn(school);
-        when(repository.save(any(School.class))).thenReturn(school);
-
-
         SchoolType university = entities.schoolType("University");
         City ekaterinburg = entities.city("Ekaterinburg", "Ural", "Russia");
+        City moscow = entities.city("Moscow", null, "Russia");
 
+        School school = entities.school("UPI", "Colledge", moscow);
 
         String json = format(
                 "{ \"name\": \"urfu\", \"number\": 5, \"city\": %1$s, \"type\": %2$s }",
@@ -150,10 +122,10 @@ public class SchoolControllerTest {
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json);
 
-
-        mvc.perform(dataPost).andDo(print())
+        mvc.perform(dataPost)
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2L))
+                .andExpect(jsonPath("$.id").value(school.getId()))
                 .andExpect(jsonPath("$.name").value("urfu"))
                 .andExpect(jsonPath("$.number").value(5))
                 .andExpect(jsonPath("$.type.id").value(university.getId()))
@@ -164,10 +136,13 @@ public class SchoolControllerTest {
 
     @Test
     void delete_school() throws Exception {
-        mvc.perform(delete("/schools/{id}", 15L)).andDo(print())
-                .andExpect(status().isNoContent());
+        City city = entities.city("Ekaterinburg", "Ural", "Russia");
 
-        verify(repository).deleteById(eq(15L));
+        School school = entities.school("URFU", 20, "University", city);
+
+        mvc.perform(delete("/schools/{id}", school.getId()))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 
 }

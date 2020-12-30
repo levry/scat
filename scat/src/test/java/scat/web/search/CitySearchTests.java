@@ -4,15 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.City;
 import scat.repo.CityRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,25 +21,20 @@ import static scat.web.search.CitySearch.CityCriteria;
 /**
  * @author levry
  */
+@DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class CitySearchTest {
-
-    @Autowired
-    private EntityManager entityManager;
+class CitySearchTests {
 
     @Autowired
     private CityRepository repository;
 
+    @Autowired
     private Entities entities;
-
-    private CitySearch search;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
-        search = new CitySearch(repository);
+        entities.cleanUp();
     }
 
     @Transactional
@@ -52,7 +47,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setName("E");
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactly(city);
     }
@@ -67,7 +62,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setId(city.getId());
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactly(city);
     }
@@ -83,7 +78,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setCountry_name("Ru");
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactlyInAnyOrder(ekat, moscow);
     }
@@ -98,7 +93,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setCountry(berlin.getCountry().getId());
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactly(berlin);
     }
@@ -112,7 +107,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setRegion_name("Ur");
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactly(ekat);
     }
@@ -126,7 +121,7 @@ class CitySearchTest {
         CityCriteria criteria = new CityCriteria();
         criteria.setRegion(ekat.getRegion().getId());
 
-        List<City> cities = search.findBy(criteria);
+        List<City> cities = repository.findBy(criteria);
 
         assertThat(cities).containsExactly(ekat);
     }

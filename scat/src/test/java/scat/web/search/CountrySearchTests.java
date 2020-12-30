@@ -4,15 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.Country;
 import scat.repo.CountryRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,25 +20,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author levry
  */
+@DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class CountrySearchTest {
+class CountrySearchTests {
 
     @Autowired
-    private EntityManager entityManager;
+    private CountryRepository repository;
 
     @Autowired
-    private CountryRepository countryRepository;
-
     private Entities entities;
-
-    private CountrySearch search;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
-        search = new CountrySearch(countryRepository);
+        entities.cleanUp();
     }
 
     @Transactional
@@ -52,7 +47,7 @@ class CountrySearchTest {
         Country country = new Country();
         country.setName("Ru");
 
-        List<Country> countries = search.findBy(country);
+        List<Country> countries = repository.findBy(country);
 
         assertThat(countries).containsExactlyInAnyOrder(russia, rumania);
     }
@@ -67,7 +62,7 @@ class CountrySearchTest {
         Country country = new Country();
         country.setId(russia.getId());
 
-        List<Country> countries = search.findBy(country);
+        List<Country> countries = repository.findBy(country);
 
         assertThat(countries).containsExactlyInAnyOrder(russia);
     }

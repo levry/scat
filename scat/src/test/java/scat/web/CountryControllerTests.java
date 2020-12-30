@@ -1,23 +1,19 @@
 package scat.web;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import scat.Entities;
+import scat.TestConfig;
 import scat.data.Country;
-import scat.repo.CountryRepository;
 
-import javax.persistence.EntityNotFoundException;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -27,59 +23,59 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author levry
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class CountryControllerTest {
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
+class CountryControllerTests {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private CountryRepository countryRepository;
+    @Autowired
+    private Entities entities;
+
+    @BeforeEach
+    void setUp() {
+        entities.cleanUp();
+    }
 
     @Test
     void get_country_by_id() throws Exception {
+        Country country = entities.country("Russia");
 
-        Country country = country(66, "Russia");
-        when(countryRepository.findOne(66)).thenReturn(country);
-
-        mvc.perform(get("/countries/66")).andDo(print())
+        mvc.perform(get("/countries/{id}", country.getId()))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(66))
+                .andExpect(jsonPath("$.id").value(country.getId()))
                 .andExpect(jsonPath("$.name").value("Russia"));
     }
 
     @Test
     void should_be_404_if_not_found_by_id() throws Exception {
-        when(countryRepository.findOne(4)).thenThrow(EntityNotFoundException.class);
-
-        mvc.perform(get("/countries/4")).andDo(print())
+        mvc.perform(get("/countries/4"))
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void post_country() throws Exception {
-        Country country = country(1, "Russia");
-        when(countryRepository.save(any(Country.class))).thenReturn(country);
-
         String json = "{ \"name\": \"Russia\" }";
 
         RequestBuilder dataPost = post("/countries")
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json);
 
-        mvc.perform(dataPost).andDo(print())
+        mvc.perform(dataPost)
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Russia"));
     }
 
     @Test
     void update_country() throws Exception {
-        Country country = country(5, "France");
-        when(countryRepository.getOne(eq(5))).thenReturn(country);
-        when(countryRepository.save(any(Country.class))).thenReturn(country);
+        Country country = entities.country("France");
 
         String json = "{ \"name\": \"France (update)\" }";
 
@@ -87,24 +83,20 @@ class CountryControllerTest {
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json);
 
-        mvc.perform(dataPost).andDo(print())
+        mvc.perform(dataPost)
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.id").value(country.getId()))
                 .andExpect(jsonPath("$.name").value("France (update)"));
     }
 
     @Test
     void delete_country() throws Exception {
-        mvc.perform(delete("/countries/{id}", 66)).andDo(print())
+        Country country = entities.country("Dropland");
+
+        mvc.perform(delete("/countries/{id}", country.getId()))
+                .andDo(print())
                 .andExpect(status().isNoContent());
-
-        verify(countryRepository).deleteById(eq(66));
     }
 
-    private Country country(int id, String name) {
-        Country country = new Country();
-        country.setId(id);
-        country.setName(name);
-        return country;
-    }
 }

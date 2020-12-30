@@ -4,15 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
+import scat.TestConfig;
 import scat.data.SchoolType;
 import scat.repo.SchoolTypeRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,25 +20,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author levry
  */
+@DataJpaTest
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class SchoolTypeSearchTest {
-
-    @Autowired
-    private EntityManager entityManager;
+class SchoolTypeSearchTests {
 
     @Autowired
     private SchoolTypeRepository repository;
 
+    @Autowired
     private Entities entities;
-
-    private SchoolTypeSearch search;
 
     @BeforeEach
     void setUp() {
-        entities = new Entities(entityManager);
-        search = new SchoolTypeSearch(repository);
+        entities.cleanUp();
     }
 
     @Transactional
@@ -51,7 +46,7 @@ class SchoolTypeSearchTest {
 
         SchoolType type = new SchoolType();
         type.setName("a");
-        List<SchoolType> types = search.findBy(type);
+        List<SchoolType> types = repository.findBy(type);
 
 
         assertThat(types).containsExactlyInAnyOrder(academy);
@@ -66,7 +61,7 @@ class SchoolTypeSearchTest {
 
         SchoolType type = new SchoolType();
         type.setId(academy.getId());
-        List<SchoolType> types = search.findBy(type);
+        List<SchoolType> types = repository.findBy(type);
 
         assertThat(types).containsExactlyInAnyOrder(academy);
     }
