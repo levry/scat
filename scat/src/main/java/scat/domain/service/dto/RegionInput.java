@@ -2,7 +2,7 @@ package scat.domain.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import scat.data.Country;
+import scat.domain.model.Country;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

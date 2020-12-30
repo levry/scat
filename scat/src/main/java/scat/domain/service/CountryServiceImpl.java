@@ -3,7 +3,7 @@ package scat.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import scat.data.Country;
+import scat.domain.model.Country;
 import scat.repo.CountryRepository;
 import scat.domain.service.dto.CountryInput;
 

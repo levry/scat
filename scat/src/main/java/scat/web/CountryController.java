@@ -3,7 +3,7 @@ package scat.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import scat.data.Country;
+import scat.domain.model.Country;
 import scat.domain.service.CountryService;
 import scat.domain.service.dto.CountryInput;
 

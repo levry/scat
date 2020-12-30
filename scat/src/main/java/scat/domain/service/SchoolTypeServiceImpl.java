@@ -3,7 +3,7 @@ package scat.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import scat.data.SchoolType;
+import scat.domain.model.SchoolType;
 import scat.repo.SchoolTypeRepository;
 import scat.domain.service.dto.SchoolTypeInput;
 

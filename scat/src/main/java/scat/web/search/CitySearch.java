@@ -1,7 +1,7 @@
 package scat.web.search;
 
 import lombok.Setter;
-import scat.data.City;
+import scat.domain.model.City;
 import scat.repo.CityRepository;
 import scat.repo.support.SpecificationBuilder;
 

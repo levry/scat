@@ -1,7 +1,7 @@
 package scat.repo;
 
 import org.springframework.data.jpa.repository.Query;
-import scat.data.Country;
+import scat.domain.model.Country;
 import scat.web.search.CountrySearch;
 
 import java.util.Collection;

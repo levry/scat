@@ -3,7 +3,7 @@ package scat.web;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import scat.data.School;
+import scat.domain.model.School;
 import scat.domain.service.SchoolService;
 import scat.domain.service.dto.SchoolInput;
 

@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.Entities;
 import scat.TestConfig;
-import scat.data.Country;
+import scat.domain.model.Country;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

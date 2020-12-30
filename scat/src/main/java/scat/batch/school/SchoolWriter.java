@@ -2,9 +2,9 @@ package scat.batch.school;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import scat.data.City;
-import scat.data.School;
-import scat.data.SchoolType;
+import scat.domain.model.City;
+import scat.domain.model.School;
+import scat.domain.model.SchoolType;
 import scat.repo.CityRepository;
 import scat.repo.SchoolRepository;
 import scat.repo.SchoolTypeRepository;

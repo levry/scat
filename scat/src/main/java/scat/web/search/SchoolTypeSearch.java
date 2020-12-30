@@ -2,7 +2,7 @@ package scat.web.search;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import scat.data.SchoolType;
+import scat.domain.model.SchoolType;
 import scat.repo.SchoolTypeRepository;
 
 import java.util.List;

@@ -10,8 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.TestConfig;
-import scat.data.City;
-import scat.data.School;
+import scat.domain.model.City;
+import scat.domain.model.School;
 import scat.repo.SchoolRepository;
 
 import java.util.List;

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingConsumer;
 import org.springframework.test.util.JsonExpectationsHelper;
-import scat.data.City;
-import scat.data.Region;
+import scat.domain.model.City;
+import scat.domain.model.Region;
 
 import java.io.StringWriter;
 import java.io.Writer;

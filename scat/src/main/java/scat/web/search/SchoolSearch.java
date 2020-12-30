@@ -2,7 +2,7 @@ package scat.web.search;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import scat.data.School;
+import scat.domain.model.School;
 import scat.repo.SchoolRepository;
 import scat.repo.support.SpecificationBuilder;
 

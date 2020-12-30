@@ -2,7 +2,7 @@ package scat.domain.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import scat.data.SchoolType;
+import scat.domain.model.SchoolType;
 
 import javax.validation.constraints.NotBlank;
 

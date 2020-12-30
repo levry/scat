@@ -1,7 +1,7 @@
 package scat.repo;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import scat.data.City;
+import scat.domain.model.City;
 import scat.web.search.CitySearch;
 
 import java.util.List;

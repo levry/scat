@@ -1,7 +1,7 @@
 package scat.repo;
 
 import org.junit.jupiter.api.Test;
-import scat.data.City;
+import scat.domain.model.City;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.boot.jackson.JsonObjectSerializer;
-import scat.data.City;
-import scat.data.School;
+import scat.domain.model.City;
+import scat.domain.model.School;
 
 import java.io.IOException;
 

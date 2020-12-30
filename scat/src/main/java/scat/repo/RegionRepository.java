@@ -2,7 +2,7 @@ package scat.repo;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import scat.data.Region;
+import scat.domain.model.Region;
 import scat.web.search.RegionSearch;
 
 import java.util.Collection;

@@ -1,6 +1,6 @@
 package scat.repo;
 
-import scat.data.SchoolType;
+import scat.domain.model.SchoolType;
 import scat.web.search.SchoolTypeSearch;
 
 import java.util.List;

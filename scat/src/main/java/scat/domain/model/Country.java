@@ -1,4 +1,4 @@
-package scat.data;
+package scat.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

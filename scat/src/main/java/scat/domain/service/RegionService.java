@@ -1,6 +1,6 @@
 package scat.domain.service;
 
-import scat.data.Region;
+import scat.domain.model.Region;
 import scat.domain.service.dto.RegionInput;
 import scat.web.search.RegionSearch;
 

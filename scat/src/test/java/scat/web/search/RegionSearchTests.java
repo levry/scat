@@ -10,8 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.TestConfig;
-import scat.data.Country;
-import scat.data.Region;
+import scat.domain.model.Country;
+import scat.domain.model.Region;
 import scat.repo.RegionRepository;
 
 import java.util.List;

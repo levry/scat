@@ -1,7 +1,7 @@
 package scat.batch.address;
 
 import lombok.Value;
-import scat.data.Country;
+import scat.domain.model.Country;
 
 import java.util.Collection;
 import java.util.Objects;

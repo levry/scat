@@ -12,9 +12,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import scat.Entities;
 import scat.TestConfig;
-import scat.data.City;
-import scat.data.Country;
-import scat.data.Region;
+import scat.domain.model.City;
+import scat.domain.model.Country;
+import scat.domain.model.Region;
 
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;

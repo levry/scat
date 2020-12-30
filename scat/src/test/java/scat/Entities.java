@@ -1,7 +1,7 @@
 package scat;
 
 import org.springframework.transaction.annotation.Transactional;
-import scat.data.*;
+import scat.domain.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

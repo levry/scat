@@ -1,7 +1,7 @@
 package scat.batch.address;
 
 import org.springframework.util.StringUtils;
-import scat.data.Region;
+import scat.domain.model.Region;
 
 import java.util.Collection;
 import java.util.Objects;

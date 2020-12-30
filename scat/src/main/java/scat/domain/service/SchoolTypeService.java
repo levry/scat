@@ -1,6 +1,6 @@
 package scat.domain.service;
 
-import scat.data.SchoolType;
+import scat.domain.model.SchoolType;
 import scat.domain.service.dto.SchoolTypeInput;
 
 /**

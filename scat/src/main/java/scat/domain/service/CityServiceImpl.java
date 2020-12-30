@@ -3,7 +3,7 @@ package scat.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import scat.data.City;
+import scat.domain.model.City;
 import scat.repo.CityRepository;
 import scat.domain.service.dto.CityInput;
 import scat.web.search.CitySearch;

@@ -3,7 +3,7 @@ package scat.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import scat.data.City;
+import scat.domain.model.City;
 import scat.domain.service.CityService;
 import scat.domain.service.dto.CityInput;
 

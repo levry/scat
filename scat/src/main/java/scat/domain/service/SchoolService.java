@@ -1,6 +1,6 @@
 package scat.domain.service;
 
-import scat.data.School;
+import scat.domain.model.School;
 import scat.domain.service.dto.SchoolInput;
 import scat.web.search.SchoolSearch;
 

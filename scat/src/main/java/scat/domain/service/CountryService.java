@@ -1,6 +1,6 @@
 package scat.domain.service;
 
-import scat.data.Country;
+import scat.domain.model.Country;
 import scat.domain.service.dto.CountryInput;
 
 /**

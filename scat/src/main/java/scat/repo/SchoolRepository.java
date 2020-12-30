@@ -1,7 +1,7 @@
 package scat.repo;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import scat.data.School;
+import scat.domain.model.School;
 import scat.web.search.SchoolSearch;
 
 import java.util.List;

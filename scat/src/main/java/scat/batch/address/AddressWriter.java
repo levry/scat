@@ -2,9 +2,9 @@ package scat.batch.address;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import scat.data.City;
-import scat.data.Country;
-import scat.data.Region;
+import scat.domain.model.City;
+import scat.domain.model.Country;
+import scat.domain.model.Region;
 import scat.repo.CityRepository;
 import scat.repo.CountryRepository;
 import scat.repo.RegionRepository;

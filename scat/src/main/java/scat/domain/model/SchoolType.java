@@ -1,4 +1,4 @@
-package scat.data;
+package scat.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,8 +11,9 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Entity
+@Table(name = "SCHOOLTYPE")
 @EqualsAndHashCode(of = "id")
-public class Region {
+public class SchoolType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,5 @@ public class Region {
     @NotNull
     @Column(nullable = false)
     private String name;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "country")
-    private Country country;
 
 }

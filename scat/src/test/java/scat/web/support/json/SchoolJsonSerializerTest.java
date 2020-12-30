@@ -3,7 +3,7 @@ package scat.web.support.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.JsonExpectationsHelper;
-import scat.data.*;
+import scat.domain.model.*;
 
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 

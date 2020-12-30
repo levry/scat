@@ -1,6 +1,6 @@
 package scat.domain.service;
 
-import scat.data.City;
+import scat.domain.model.City;
 import scat.domain.service.dto.CityInput;
 import scat.web.search.CitySearch;
 

@@ -2,7 +2,7 @@ package scat.web.search;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import scat.data.Country;
+import scat.domain.model.Country;
 import scat.repo.CountryRepository;
 
 import java.util.List;

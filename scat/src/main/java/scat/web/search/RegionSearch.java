@@ -1,7 +1,7 @@
 package scat.web.search;
 
 import lombok.Setter;
-import scat.data.Region;
+import scat.domain.model.Region;
 import scat.repo.RegionRepository;
 import scat.repo.support.SpecificationBuilder;
 
