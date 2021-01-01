@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scat.domain.model.City;
-import scat.repo.CityRepository;
+import scat.domain.repo.CityRepository;
 import scat.domain.service.dto.CityInput;
-import scat.web.search.CitySearch;
 
 /**
  * @author levry
@@ -20,7 +19,7 @@ public class CityServiceImpl implements CityService {
 
     @Transactional(readOnly = true)
     @Override
-    public Iterable<City> findBy(CitySearch.CityCriteria criteria) {
+    public Iterable<City> findBy(CityRepository.CityCriteria criteria) {
         return repository.findBy(criteria);
     }
 

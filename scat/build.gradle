@@ -31,7 +31,8 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit', module: 'junit'
 	}
-	testCompile 'org.junit.jupiter:junit-jupiter-api'
+	testCompile 'org.junit.jupiter:junit-jupiter-api',
+			'com.tngtech.archunit:archunit-junit5:0.14.1'
 	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 
 	testCompileOnly 'org.projectlombok:lombok'

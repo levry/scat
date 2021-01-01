@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Import;
+import scat.config.ScatConfig;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @Import(ScatConfig.class)

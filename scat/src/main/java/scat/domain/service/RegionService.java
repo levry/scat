@@ -1,14 +1,14 @@
 package scat.domain.service;
 
 import scat.domain.model.Region;
+import scat.adapter.persistence.RegionJpaRepository;
 import scat.domain.service.dto.RegionInput;
-import scat.web.search.RegionSearch;
 
 /**
  * @author levry
  */
 public interface RegionService {
-    Iterable<Region> findBy(RegionSearch.RegionCriteria criteria);
+    Iterable<Region> findBy(RegionJpaRepository.RegionCriteria criteria);
 
     Region findOne(Integer id);
 
