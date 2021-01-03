@@ -14,11 +14,6 @@ import java.util.List;
 public interface SchoolTypeJpaRepository extends JpaRepository<SchoolType, Integer>, SchoolTypeRepository {
 
     @Override
-    default SchoolType findOne(Integer id) {
-        return findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    @Override
     default List<SchoolType> findBy(SchoolType params) {
         return new SchoolTypeSearch(this).findBy(params);
     }

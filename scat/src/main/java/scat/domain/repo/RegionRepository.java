@@ -4,8 +4,10 @@ import lombok.Data;
 import scat.adapter.persistence.RegionJpaRepository;
 import scat.domain.model.Region;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author levry
@@ -16,13 +18,15 @@ public interface RegionRepository {
 
     List<Region> findBy(RegionJpaRepository.RegionCriteria criteria);
 
-    Region findOne(Integer id);
+    Optional<Region> findById(Integer id);
 
     Region save(Region region);
 
-    Region getOne(Integer id);
-
     void deleteById(Integer id);
+
+    default Region findOne(Integer id) {
+        return findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 
     @Data
     class RegionCriteria {

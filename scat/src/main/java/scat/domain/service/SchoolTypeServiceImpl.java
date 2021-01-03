@@ -37,7 +37,7 @@ public class SchoolTypeServiceImpl implements SchoolTypeService {
 
     @Override
     public SchoolType update(Integer id, SchoolTypeInput data) {
-        SchoolType schoolType = repository.getOne(id);
+        SchoolType schoolType = repository.findOne(id);
         schoolType.setName(data.getName());
         return repository.save(schoolType);
     }

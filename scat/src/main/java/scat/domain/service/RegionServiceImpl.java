@@ -38,7 +38,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public Region update(Integer id, RegionInput data) {
-        Region region = repository.getOne(id);
+        Region region = repository.findOne(id);
         region.setName(data.getName());
         region.setCountry(data.getCountry());
         return repository.save(region);

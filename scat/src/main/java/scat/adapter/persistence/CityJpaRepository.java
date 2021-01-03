@@ -8,7 +8,6 @@ import scat.domain.model.City;
 import scat.domain.repo.CityRepository;
 import scat.adapter.persistence.support.SpecificationBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +15,6 @@ import java.util.Optional;
  * @author levry
  */
 public interface CityJpaRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City>, CityRepository {
-
-    @Override
-    default City findOne(Long id) {
-        return findById(id).orElseThrow(EntityNotFoundException::new);
-    }
 
     @Override
     default Optional<City> findBy(SchoolData data) {

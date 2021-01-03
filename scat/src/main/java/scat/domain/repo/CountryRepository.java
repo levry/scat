@@ -2,8 +2,10 @@ package scat.domain.repo;
 
 import scat.domain.model.Country;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author levry
@@ -14,11 +16,13 @@ public interface CountryRepository {
 
     List<Country> findBy(Country params);
 
-    Country findOne(Integer id);
+    Optional<Country> findById(Integer id);
 
     Country save(Country country);
 
-    Country getOne(Integer id);
-
     void deleteById(Integer id);
+
+    default Country findOne(Integer id) {
+        return findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 }

@@ -4,7 +4,9 @@ import lombok.Data;
 import scat.domain.model.City;
 import scat.domain.model.School;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author levry
@@ -13,15 +15,17 @@ public interface SchoolRepository {
 
     List<School> findBy(SchoolCriteria criteria);
 
-    School findOne(Long id);
+    Optional<School> findById(Long id);
 
     School save(School school);
-
-    School getOne(Long id);
 
     void deleteById(Long id);
 
     boolean hasSchool(String name, City city);
+
+    default School findOne(Long id) {
+        return findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 
     @Data
     class SchoolCriteria {

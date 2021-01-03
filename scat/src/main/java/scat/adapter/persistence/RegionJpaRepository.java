@@ -25,9 +25,4 @@ public interface RegionJpaRepository extends JpaRepository<Region, Integer>, Jpa
         return new RegionSearch(this).findBy(criteria);
     }
 
-    @Override
-    default Region findOne(Integer id) {
-        return findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
 }

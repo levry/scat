@@ -40,7 +40,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City update(Long id, CityInput data) {
-        City city = repository.getOne(id);
+        City city = repository.findOne(id);
         city.setName(data.getName());
         city.setRegion(data.getRegion());
         city.setCountry(data.getCountry());

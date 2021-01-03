@@ -44,7 +44,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public School update(Long id, @Valid SchoolInput data) {
-        School school = repository.getOne(id);
+        School school = repository.findOne(id);
         school.setName(data.getName());
         school.setNumber(data.getNumber());
         school.setType(data.getType());

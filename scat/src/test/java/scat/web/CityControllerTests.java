@@ -62,8 +62,16 @@ class CityControllerTests {
     }
 
     @Test
+    void get_shouldBeNotFound_whenCityIsNotExists() throws Exception {
+        mvc.perform(get("/cities/{id}", 888))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void should_be_404_if_not_found_city() throws Exception {
-        mvc.perform(get("/cities/{id}", 3)).andDo(print())
+        mvc.perform(get("/cities/{id}", 3))
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
 

@@ -38,7 +38,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country update(Integer id, CountryInput data) {
-        Country country = repository.getOne(id);
+        Country country = repository.findOne(id);
         country.setName(data.getName());
         return repository.save(country);
     }
