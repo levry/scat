@@ -2,8 +2,8 @@ plugins {
 	id "java"
 	id "jacoco"
 	id "org.sonarqube" version "2.6.1"
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'org.springframework.boot' version '2.0.0.RELEASE'
+	id 'org.springframework.boot' version '2.4.1'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 version = '0.0.1-SNAPSHOT'
@@ -20,18 +20,19 @@ repositories {
 }
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	compile 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa',
+			'org.springframework.boot:spring-boot-starter-web',
+			'org.springframework.boot:spring-boot-starter-validation'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	runtime 'com.h2database:h2'
 
-	testCompile('org.springframework.boot:spring-boot-starter-test') {
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit', module: 'junit'
 	}
-	testCompile 'org.junit.jupiter:junit-jupiter-api',
+	testImplementation 'org.junit.jupiter:junit-jupiter-api',
 			'com.tngtech.archunit:archunit-junit5:0.14.1'
 	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 

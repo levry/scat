@@ -58,7 +58,7 @@ class RegionData {
     }
 
     static RegionData of(Address address) {
-        if (StringUtils.isEmpty(address.getRegion())) {
+        if (!StringUtils.hasText(address.getRegion())) {
             return null;
         }
         return new RegionData(address.getCountry(), address.getRegion());
