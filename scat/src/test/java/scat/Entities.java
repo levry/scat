@@ -1,6 +1,7 @@
 package scat;
 
-import scat.data.*;
+import org.springframework.transaction.annotation.Transactional;
+import scat.domain.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -9,6 +10,7 @@ import java.util.Optional;
 /**
  * @author levry
  */
+@Transactional
 public class Entities {
 
     private final EntityManager entityManager;
@@ -76,9 +78,25 @@ public class Entities {
     }
 
     public SchoolType schoolType(String name) {
+        return findSchoolType(name).orElseGet(() -> newSchoolType(name));
+    }
+
+    private SchoolType newSchoolType(String name) {
         SchoolType schoolType = new SchoolType();
         schoolType.setName(name);
         return persist(schoolType);
+    }
+
+    private Optional<SchoolType> findSchoolType(String name) {
+        try {
+            return Optional.of(entityManager
+                    .createQuery("SELECT t FROM SchoolType t WHERE LOWER(t.name) = LOWER(:name)", SchoolType.class)
+                    .setParameter("name", name)
+                    .getSingleResult()
+            );
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     public School school(String name, String type, City city) {
@@ -98,5 +116,11 @@ public class Entities {
         return persist(school);
     }
 
-
+    public void cleanUp() {
+        entityManager.createQuery("DELETE FROM School").executeUpdate();
+        entityManager.createQuery("DELETE FROM SchoolType").executeUpdate();
+        entityManager.createQuery("DELETE FROM City").executeUpdate();
+        entityManager.createQuery("DELETE FROM Region").executeUpdate();
+        entityManager.createQuery("DELETE FROM Country").executeUpdate();
+    }
 }
