@@ -2,20 +2,18 @@ package scat.domain.batch.school;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.TestConfig;
-import scat.domain.model.City;
-import scat.domain.model.School;
-import scat.domain.model.SchoolType;
 import scat.adapter.persistence.CityJpaRepository;
 import scat.adapter.persistence.SchoolJpaRepository;
 import scat.adapter.persistence.SchoolTypeJpaRepository;
+import scat.domain.model.City;
+import scat.domain.model.School;
+import scat.domain.model.SchoolType;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @Import(TestConfig.class)
-@ExtendWith(SpringExtension.class)
 class SchoolWriterTests {
 
     @Autowired

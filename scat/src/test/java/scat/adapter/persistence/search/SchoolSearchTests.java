@@ -2,17 +2,15 @@ package scat.adapter.persistence.search;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.TestConfig;
+import scat.adapter.persistence.SchoolJpaRepository;
 import scat.domain.model.City;
 import scat.domain.model.School;
-import scat.adapter.persistence.SchoolJpaRepository;
 
 import java.util.List;
 
@@ -24,7 +22,6 @@ import static scat.adapter.persistence.SchoolJpaRepository.SchoolCriteria;
  */
 @DataJpaTest
 @Import(TestConfig.class)
-@ExtendWith(SpringExtension.class)
 class SchoolSearchTests {
 
     @Autowired

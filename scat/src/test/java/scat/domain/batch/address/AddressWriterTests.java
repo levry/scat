@@ -2,20 +2,18 @@ package scat.domain.batch.address;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import scat.Entities;
 import scat.TestConfig;
-import scat.domain.model.City;
-import scat.domain.model.Country;
-import scat.domain.model.Region;
 import scat.adapter.persistence.CityJpaRepository;
 import scat.adapter.persistence.CountryJpaRepository;
 import scat.adapter.persistence.RegionJpaRepository;
+import scat.domain.model.City;
+import scat.domain.model.Country;
+import scat.domain.model.Region;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @Import(TestConfig.class)
-@ExtendWith(SpringExtension.class)
 class AddressWriterTests {
 
     @Autowired
