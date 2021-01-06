@@ -1,11 +1,9 @@
 # School catalog
-[![Build Status](https://travis-ci.org/levry/scat.svg?branch=master)](https://travis-ci.org/levry/scat)
-[![CircleCI](https://circleci.com/gh/levry/scat.svg?style=shield)](https://circleci.com/gh/levry/scat)
+![ci](https://github.com/levry/scat/workflows/gradle-ci/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/levry/scat/branch/master/graph/badge.svg)](https://codecov.io/gh/levry/scat)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=github.levry.scat&metric=alert_status)](https://sonarcloud.io/dashboard/index/github.levry.scat)
 
 Catalog of educational institutions
-
 
 ## Technologies
 
