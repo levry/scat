@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: scat
+  main:
+    banner-mode: "OFF"
+
+  jpa:
+    open-in-view: false
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
