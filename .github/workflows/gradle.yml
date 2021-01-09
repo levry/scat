@@ -24,5 +24,6 @@ jobs:
         run: ./gradlew :scat:check :scat:jacocoTestReport --console=plain
       - name: sonarqube-inspect
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.sonar_token }}
         run: ./gradlew :scat:jacocoTestReport :scat:sonarqube -Dsonar.login="$SONAR_TOKEN" -Dsonar.verbose=true --console=plain --stacktrace
