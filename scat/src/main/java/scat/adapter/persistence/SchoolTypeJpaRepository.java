@@ -5,7 +5,6 @@ import scat.domain.model.SchoolType;
 import scat.adapter.persistence.search.SchoolTypeSearch;
 import scat.domain.repo.SchoolTypeRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**

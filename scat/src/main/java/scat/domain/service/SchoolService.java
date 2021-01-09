@@ -1,15 +1,16 @@
 package scat.domain.service;
 
 import scat.domain.model.School;
-import scat.adapter.persistence.SchoolJpaRepository;
 import scat.domain.service.dto.SchoolInput;
+
+import static scat.domain.repo.SchoolRepository.*;
 
 /**
  * @author levry
  */
 public interface SchoolService {
 
-    Iterable<School> findBy(SchoolJpaRepository.SchoolCriteria criteria);
+    Iterable<School> findBy(SchoolCriteria criteria);
 
     School findOne(Long id);
 

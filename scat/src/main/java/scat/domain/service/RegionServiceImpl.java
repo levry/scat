@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scat.domain.model.Region;
-import scat.adapter.persistence.RegionJpaRepository;
 import scat.domain.repo.RegionRepository;
 import scat.domain.service.dto.RegionInput;
+
+import static scat.domain.repo.RegionRepository.*;
 
 /**
  * @author levry
@@ -19,7 +20,7 @@ public class RegionServiceImpl implements RegionService {
     private final RegionRepository repository;
 
     @Override
-    public Iterable<Region> findBy(RegionJpaRepository.RegionCriteria criteria) {
+    public Iterable<Region> findBy(RegionCriteria criteria) {
         return repository.findBy(criteria);
     }
 

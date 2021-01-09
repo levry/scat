@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author levry
  */
-class ErrorResponseBuilderTest {
+class ErrorResponseBuilderTests {
 
     @Test
     void exception_with_object_error() {
@@ -34,9 +34,10 @@ class ErrorResponseBuilderTest {
 
         assertThat(errors).hasSize(1);
 
-        Map error = errors.get(0);
-        assertThat(error).contains(entry("message", "This is error message"));
-        assertThat(error).contains(entry("code", "test"));
+        Map<String, Object> error = errors.get(0);
+        assertThat(error)
+                .contains(entry("message", "This is error message"))
+                .contains(entry("code", "test"));
     }
 
     @Test
@@ -51,9 +52,10 @@ class ErrorResponseBuilderTest {
 
         assertThat(errors).hasSize(1);
 
-        Map error = errors.get(0);
-        assertThat(error).contains(entry("message", "Test message"));
-        assertThat(error).contains(entry("field", "testField"));
+        Map<String, Object> error = errors.get(0);
+        assertThat(error)
+                .contains(entry("message", "Test message"))
+                .contains(entry("field", "testField"));
     }
 
     private BindingResult bindingResult(ObjectError... errors) {

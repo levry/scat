@@ -70,7 +70,7 @@ class RegionData {
 
     static Collection<String> toNames(Set<RegionData> data) {
         return data.stream()
-                .filter(r -> !StringUtils.isEmpty(r.name))
+                .filter(r -> StringUtils.hasText(r.name))
                 .map(r -> (r.country + ' ' + r.name).toLowerCase())
                 .collect(toList());
     }

@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scat.domain.model.School;
-import scat.adapter.persistence.SchoolJpaRepository;
 import scat.domain.repo.SchoolRepository;
 import scat.domain.service.dto.SchoolInput;
 
 import javax.validation.Valid;
+
+import static scat.domain.repo.SchoolRepository.*;
 
 /**
  * @author levry
@@ -22,7 +23,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Transactional(readOnly = true)
     @Override
-    public Iterable<School> findBy(SchoolJpaRepository.SchoolCriteria criteria) {
+    public Iterable<School> findBy(SchoolCriteria criteria) {
         return repository.findBy(criteria);
     }
 

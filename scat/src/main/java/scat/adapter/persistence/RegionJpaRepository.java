@@ -7,7 +7,6 @@ import scat.domain.model.Region;
 import scat.adapter.persistence.search.RegionSearch;
 import scat.domain.repo.RegionRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 # School catalog
 ![ci](https://github.com/levry/scat/workflows/gradle-ci/badge.svg?branch=master)
-[![codecov](https://codecov.io/gh/levry/scat/branch/master/graph/badge.svg)](https://codecov.io/gh/levry/scat)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=github.levry.scat&metric=alert_status)](https://sonarcloud.io/dashboard/index/github.levry.scat)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=github.levry.scat&metric=coverage)](https://sonarcloud.io/dashboard?id=github.levry.scat)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=github.levry.scat&metric=alert_status)](https://sonarcloud.io/dashboard?id=github.levry.scat)
 
 Catalog of educational institutions
 
