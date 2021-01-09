@@ -22,3 +22,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: unit-test
         run: ./gradlew :scat:check :scat:jacocoTestReport --console=plain
+      - name: sonarqube-inspect
+        env:
+          SONAR_TOKEN: ${{ secrets.sonar_token }}
+        run: ./gradlew :scat:jacocoTestReport :scat:sonarqube -Dsonar.login="$SONAR_TOKEN" -Dsonar.verbose=true --console=plain --stacktrace
